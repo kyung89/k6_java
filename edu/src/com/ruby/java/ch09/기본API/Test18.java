@@ -33,15 +33,19 @@ public class Test18 {
 		// 암호 코드 추가
         String password = "YourPassword123!"; // 여기에 암호를 입력하세요
         String password2 = "yourpassword123!"; 
-        String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*()])(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$";
+        String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*()])(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$"; // 챗봇을 사용하였음
+
 
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(password2);
+        Matcher matcher = pattern.matcher(password);
 
         if(matcher.matches()) {
             System.out.println("암호가 유효합니다.");
         } else {
             System.out.println("암호가 유효하지 않습니다. 암호는 대문자 1개 이상, 특수문자 2개 이상, 숫자 1개 이상, 문자 1개 이상을 포함해야 합니다.");
         }
+        
+        // 정규표현식(Regular expression)
+        // 다 외울 필요는 없이 이해하고 넘어가면 된다.
 	}
 }

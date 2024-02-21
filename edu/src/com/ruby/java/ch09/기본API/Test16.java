@@ -13,18 +13,18 @@ public class Test16 {
 		int score4[] = new int[score.length];
 		System.arraycopy(score, 0, score4, 0, score.length);
 
-		System.out.println(Arrays.toString(score));
+		System.out.println(Arrays.toString(score)); // 그냥 score 는 참조변수이다. toString 대신 score 를 출력하면 주소를 출력한다
 		System.out.println(Arrays.toString(score2));
 		System.out.println(Arrays.toString(score3));
 		System.out.println(Arrays.toString(score4));
 
-		System.out.println(Arrays.equals(score, score2));
+		System.out.println(Arrays.equals(score, score2)); //equals 함수 제공
 
 		Arrays.sort(score);
 		System.out.println(Arrays.toString(score));
 		System.out.println(Arrays.equals(score, score2));
 
-		int index = Arrays.binarySearch(score, 100);
+		int index = Arrays.binarySearch(score, 100); // binrySearch 는 나중에 자료구조에서 공부할 예정
 		System.out.println(index);
 	}
 }
