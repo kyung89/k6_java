@@ -1,0 +1,11 @@
+package com.ruby.java.ch04;
+
+public class Test_행렬연산 {
+
+	
+	public static void main(String[] args) {
+		
+		난수 생성으로 초기화
+		A[3][4] = B[][] + C[][]; D[3][5] =  B[][] *  
+	}
+}

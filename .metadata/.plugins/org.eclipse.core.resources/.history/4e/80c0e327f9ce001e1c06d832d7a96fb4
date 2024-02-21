@@ -1,0 +1,16 @@
+package com.ruby.java.ch08.innerClass;
+
+public class OuterClassTest {
+
+	public static void main(String[] args) {
+		
+		OuterClass outer = new OuterClass();
+		OuterClass.InstanceClass inner01 = outer.new InstanceClass();
+		outer.InstanceClass inner02 = outer.new InstanceClass();
+		inner01.a = 123;
+		inner01.method2();
+	}
+}
+
+// 한 파일에 public class 는 오직 하나이어야 한다
+// 패키지 내에서 이 public class 는 사용할 수 있다는 의미다

@@ -1,0 +1,47 @@
+package com.ruby.java.ch04;
+
+import java.util.Random;
+
+public class Test37 {
+	
+	public static void main(String[] args) {
+		
+		int MAX = 20;
+		
+		// 난수 생성하기
+		Random rnd = new Random(); // Random: 난수 생성에 관련된 클래스
+		int[] score = new int[20];
+		
+		for(int i = 0; i < score.length; i++) {
+			score[i] = rnd.nextInt(MAX); // maximum bound 20
+		}
+		for(int num : score) {
+			System.out.println(num);
+		}
+		System.out.println();
+		for(int i = 0; i < score.length; i++) {
+			System.out.print(score[i] + "\t");
+			if((i+1) % 4 == 0) System.out.println();
+		}
+		System.out.println();
+		
+		// p.155
+		
+		int sum = 0;
+		int max = 0;
+		int min = MAX;
+		for(int s : score) {
+			sum += s;
+			if(max < s) max = s;
+			if(min > s) min = s;
+		}
+		
+		double avg = sum / score.length;
+		
+		System.out.println("총 점 : " + sum);
+		System.out.println("평 균 : " + avg);
+		System.out.println("최댓값 : " + max);
+		System.out.println("최소값 : " + min);
+	}
+
+}

@@ -1,0 +1,28 @@
+package com.ruby.java.ch06;
+
+public class Armor {
+	private String name;
+	private int height;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	
+	// Alt + Shift + S :  팝업창 바로 뜬다 -> 여기서 getter setter 생성해도 된다
+	
+	// 메모리
+	// Code 영역
+	// Heap 영역: 인스턴스 저장
+	// Stack 영역: 임시저장
+	
+	
+}

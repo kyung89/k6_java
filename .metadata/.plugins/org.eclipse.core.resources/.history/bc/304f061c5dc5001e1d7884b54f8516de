@@ -1,0 +1,11 @@
+package com.ruby.java.ch04;
+
+public class Test37 {
+	
+	public static void main(String[] args) {
+		
+		// 난수 생성하기
+		Random rnd = new Random(0;)
+	}
+
+}
