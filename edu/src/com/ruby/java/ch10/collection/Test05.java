@@ -8,6 +8,7 @@ public class Test05 {
 
 	public static void main(String[] args) {
 		LinkedList<String> list = new LinkedList<>();
+		// List<String> list = new LinkedList<>(); 도 가능!
 
 		list.add("서울");
 		list.add("북경");
@@ -16,24 +17,25 @@ public class Test05 {
 		for (String element : list) {
 			System.out.print(element + "\t");
 		}
+		// cursor 개념 이해하기!
 
 		System.out.println();
 		
 		list.add(1, "LA");
 		print(1, list);
 		list.addFirst("런던");
-		Test05.print(2, list);
+		print(2, list);
 		list.addLast("서울");
 		print(3, list);
 
-		list.offer("파리");
+		list.offer("파리"); // 리스트에 추가한다는 메서드: offer == add
 		print(4, list);
 		list.offerFirst("로마");
 		print(5, list);
 		list.offerLast("베른");
 		print(6, list);
 
-		System.out.println("7 : " + list.peek());
+		System.out.println("7 : " + list.peek()); // 리스트의 맨 앞에 있는거!
 		System.out.println("8 : " + list.peekFirst());
 		System.out.println("9 : " + list.peekLast());
 
@@ -64,10 +66,10 @@ public class Test05 {
 		list.remove("LA");
 		print(23, list);
 
-		List<String> list2 = Arrays.asList("북경", "상해");
+		List<String> list2 = Arrays.asList("북경", "상해"); // 배열 내용을 리스트로 만들어줌! [알아두기]
 		list.addAll(list2);
 		//list.sort();/Linked List의 sort는 지원되지 않음
-		Object obj[] = list.toArray();
+		Object obj[] = list.toArray(); // 리스트의 원소들을 배열로 만들어줌! [알아두기]
 		System.out.println("24 : " + Arrays.toString(obj));
 
 		String cities[] = new String[0];
@@ -77,7 +79,7 @@ public class Test05 {
 		list.removeAll(list2);
 		print(26, list);
 		
-		LinkedList<String> list3 = new LinkedList<String>(list2);
+		LinkedList<String> list3 = new LinkedList<String>(list2); // 
 		print(27, list3);
 		
 	}

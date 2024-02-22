@@ -75,11 +75,12 @@ public class Test02 {
 		ArrayList lst = new ArrayList(); //크기가 10인 리스트를 생성
 		lst.add(s);
 		lst.add(ix);
+		lst.add(1, "good");
 		//int len3 = list.get(0).length();//오류 > list.get(0).은 Object이기 때문이다.
-		int len4 = ((String)lst.get(0)).length();
+		int len4 = ((String)lst.get(0)).length(); // type casting
 		
 		//페이지 468 -  generic 타입을 학습
-		List<String> list = new ArrayList<String>();//크기가 10인 리스트 생성
+		List<String> list = new ArrayList<String>();//크기가 10인 리스트 생성 // List 대신 ArrayList 를 사용해도 틀린 것은 아니다
 		list.add("서울");
 		list.add("북경");
 		list.add("상해");
