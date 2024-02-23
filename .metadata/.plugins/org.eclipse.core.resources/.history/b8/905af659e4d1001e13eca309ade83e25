@@ -1,0 +1,12 @@
+package com.ruby.java.ch11;
+
+public class Test01 {
+	
+	public static void main(String[] args) {
+		
+		int arr[] = new int[];
+		arr[3] = 30;
+		System.out.println("OK");
+	}
+
+}
