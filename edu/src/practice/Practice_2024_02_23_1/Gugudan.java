@@ -17,7 +17,7 @@ public class Gugudan { // 나중에 써먹을 거임!!!
 	// 2 x 1 = 1	3 x 1 = 3 	4 x 1 = 4
 	// ...          ...         ...
 	// for loop 2개 사용
-	public void printAllInHorizontal() {
+	public void printHorizontal() {
 		
 		for(int i = 1; i < 10; i++) { 
 			for(int j = 2; j < 10; j++)
@@ -33,7 +33,10 @@ public class Gugudan { // 나중에 써먹을 거임!!!
 	// for loop 3개 사용
 	public void printByColumn(int column) {
 		
-		for(int col = 0; col < 9 / column; col++) {
+		int ROW = 8 / column;
+		if(8 % column != 0) ROW += 1;
+		
+		for(int col = 0; col < ROW; col++) {
 			for(int i = 1; i < 10; i++) { 
 				for(int j = 2 + col * column; j < 10; j++) {
 					if(j == 2 + (col+1) * column) break;

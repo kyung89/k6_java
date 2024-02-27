@@ -110,7 +110,8 @@ class LinkedList3 {
 		}
 		
 		
-		// 새로운 데이터 삽입
+		// 첫번째 방법
+		/*
 		boolean dataPutted = false; // 이미 있는 요소를 삽입할 경우를 위함
 		while(next.link != null) {
 			// next < newNode.data < next.link.data
@@ -125,26 +126,24 @@ class LinkedList3 {
 				next = next.link;
 			}
 		}
-		
-		
-		// 새로운 풀이를 작성해볼 것
-		
-		// 배열 insert 참고
-//		int indx = 0;
-//		while (indx <= count) { // indx: data에 값이 있는 인덱스 순환
-//			if (x < data[indx]) { // x 가 data 값보다 작을때
-//				while(indx <= count) {
-//					int temp = data[indx]; //data의 값을 임시로 저장해둔다
-//					data[indx] = x; // 해당 위치에 x 를 넣는다
-//					x = temp; indx++; // x 뒤부터는 data의 요소를 차례대로 넣는다
-//				}
-//				break;
-//			} else // x 가 data 값보다 크거나 갑으면 data 다음 값으로 넘어간다
-//				indx++;
-//		}
-//		count++;
-		
-		
+		if(!dataPutted) next.link = newNode;
+		*/
+
+		//두번째 방법
+		while(next.link != null) { //현재 next, 이 다음 값이 있을 때
+			// next.data < newNode.data -> 다음값으로 넘어간다
+			if(next.link.data < newNode.data) next = next.link;
+			// next.data >= newNode.data
+			else {	
+				if(newNode.link == null) { //newNode 넣어짐
+					newNode.link = next.link; // 뒤의 다음을 newNode 에 연결
+					next.link = newNode; // 앞을 newNode 에 연결
+					next = newNode.link; // 다음 값을 가리킴
+				}else
+					next = next.link;
+			}
+		}
+		if(newNode.link == null) next.link = newNode;
 	}
 
 }
@@ -236,19 +235,19 @@ public class Test_연결리스트와배열 {
 	
 	public static void main(String[] args) {
 		
-		int[] list = new int[10];
-		int count = 0;
-		System.out.println("배열로 리스트::");
-		count = getList(list);
-		showList(list);
-		
-		count = insertList(list, count, 3); // 3 들어가고 count 는 배열의 갯수
-		showList(list);
-		
-		count = insertList(list, count, 7);
-		showList(list);
-		
-		System.out.println();
+//		int[] list = new int[10];
+//		int count = 0;
+//		System.out.println("배열로 리스트::");
+//		count = getList(list);
+//		showList(list);
+//		
+//		count = insertList(list, count, 3); // 3 들어가고 count 는 배열의 갯수
+//		showList(list);
+//		
+//		count = insertList(list, count, 7);
+//		showList(list);
+//		
+//		System.out.println();
 		
 		LinkedList3 ll = new LinkedList3(); // new: 메모리 heap에 할당된 주소를 반환: heap 에 공간 할당 -> 할당된 메모리 공간에 주소 반환
 		ll.showList();
@@ -259,7 +258,12 @@ public class Test_연결리스트와배열 {
 		// 이미 있는 숫자를 insert 할 경우도 처리해줘야 하는가? 일단 처리함
 		ll.insert(3);ll.showList();
 		ll.insert(7);ll.showList();
-		
-		//ll.insert(7);ll.showList();
+		ll.insert(7);ll.showList();
+		ll.insert(8);ll.showList();
+		ll.insert(9);ll.showList();
+		ll.insert(12);ll.showList();
+		ll.insert(30);ll.showList();
+		ll.insert(12);ll.showList();
+		ll.insert(30);ll.showList();
 	}
 }

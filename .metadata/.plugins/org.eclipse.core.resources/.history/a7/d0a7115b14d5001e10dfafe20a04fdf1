@@ -1,0 +1,48 @@
+package com.ruby.java.ch13.study;
+
+class Bag {
+	private T thing;
+	
+	public Bag() {
+		super();
+	}
+
+	public Bag(T thing) {
+		super();
+		this.thing = thing;
+	}
+
+	public T getThing() {
+		return thing;
+	}
+
+	public void setThing(T thing) {
+		this.thing = thing;
+	}
+	
+	void showType() {
+		System.out.println("T의 타입은 " + thing.getClass().getName());
+	}
+}
+
+class Book {}
+class PencilCase {}
+class Notebook {}
+
+public class BagTest {
+
+	public static void main(String[] args) {
+		
+//		Bag<Book> bag1 = new Bag<>(new Book());
+//		Bag<PencilCase> bag2 = new Bag<>(new PencilCase());
+//		Bag<Notebook> bag3 = new Bag<>(new Notebook());
+//		
+//		bag1.showType();
+//		bag2.showType();
+//		bag3.showType();
+		
+		Bag<Book> bag = new Bag<>(); // 기본 생성자를 만들어주면 된다
+		bag.setThing(new Book());
+		bag.showType();
+	}
+}
