@@ -42,6 +42,5 @@ public class Practice_2024_02_28_1 {
 		else System.out.println("해당 연도는 평년입니다.");
 		sc.close();
 		
-		
 	}
 }

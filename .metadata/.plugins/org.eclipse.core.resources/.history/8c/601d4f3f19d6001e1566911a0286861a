@@ -2,7 +2,13 @@ package practice;
 
 import java.util.Scanner;
 
-public class Practice_2024_02_28_1 {
+public class Practice_2024_02_28_2 {
+	
+	//• 2023년 이후 윤년 10개를 찾아서 배열에 저장하고 이를 출력하는 메소드를 구현해보세요.
+	//• 4로 나누어 떨어지는 해는 윤년, 그밖의 해는 평년
+	//• 4로 나누어떨어지더라도100으로나누어지고떨어지면평년
+	//• 4로 나누어떨어지더라도100으로나누어지고떨어지지만400으로나누어떨어지면윤년
+
 	//임의의 년도를 입력 받아서 윤년인지를 판단하는 메소드를 구현해 보세요.
 	//• 4로 나누어 떨어지는 해는 윤년, 그 밖의 해는 평년
 	//• 4로 나누어 떨어지더라도 100으로 나누어지고 떨어지면 평년
@@ -33,15 +39,17 @@ public class Practice_2024_02_28_1 {
 	
 	public static void main(String[] args) {
 		
-		Scanner sc = new Scanner(System.in);
-		System.out.print("임의의 년도를 입력하세요: ");
-		int year = sc.nextInt();
-		boolean isItLeafYear = isItLeafYear(year);
-		
-		if (isItLeafYear) System.out.println("해당 연도는 윤년입니다.");
-		else System.out.println("해당 연도는 평년입니다.");
-		sc.close();
-		
+		//• 2023년 이후 윤년 10개를 찾아서 배열에 저장하고 이를 출력하는 메소드를 구현해보세요.
+		int year = 2024;
+		int idx = 0;
+		int[] leafYears = new int[10];
+		while(idx < 10) {
+			if(isItLeafYear(year)) {
+				leafYears[idx++] = year;
+			}
+			year++;
+		}
+		for(int leafyear : leafYears) System.out.println(leafYear);
 		
 	}
 }
