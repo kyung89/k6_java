@@ -1,0 +1,24 @@
+package practice;
+
+// p.27
+// 두 개의 직선 좌표가 주어 졌을 때 두 직선의 교차점을 구해서 출력 하세요
+class IntersectOfLines {
+	public int x1, y1, x2, y2, x3, y3, x4, y4;
+	
+	public int getIntersect() {
+		return 0;
+	}
+	
+	public void printIntersect() {
+	
+	}
+	
+}
+
+public class Practice_2024_03_04_01 {
+
+	public static void main(String[] args) {
+		
+		
+	}
+}

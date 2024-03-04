@@ -14,7 +14,8 @@ class EmptyStringException extends Exception {
 
 public class Test08 {
 
-	public static void main(String[] args) throws EmptyStringException {
+//	public static void main(String[] args) throws EmptyStringException {
+	public static void main(String[] args) {
 		
 		String str = "Korea,Australia,China,Germany,Spain,Turkey";
 		
@@ -24,11 +25,16 @@ public class Test08 {
 			return s.split(",");
 		};
 		
-		String result[] = sf.modify(str);
-		System.out.println(Arrays.toString(result));
-		
-		String str2 = "";
-		String result2[] = sf.modify(str2);
-		System.out.println(Arrays.toString(result2));
+		try {
+			String result[] = sf.modify(str);
+			System.out.println(Arrays.toString(result));
+			
+			String str2 = "";
+			String result2[] = sf.modify(str2);
+			System.out.println(Arrays.toString(result2));
+		} catch (EmptyStringException e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}
 	}
 }

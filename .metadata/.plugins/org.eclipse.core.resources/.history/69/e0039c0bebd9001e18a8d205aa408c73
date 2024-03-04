@@ -1,0 +1,17 @@
+package practice;
+
+// p.27
+// 두 개의직선좌표가주어졌을때두직선의교차점을구해서출력하세요
+class IntersectOfLines {
+	public int x1, y1, x2, y2, x3, y3, x4, y4;
+	
+	public int getIntersect() {
+		
+	}
+	
+	public void printIntersect() {
+}
+
+public class Practice_2024_03_04_1 {
+
+}

@@ -23,8 +23,10 @@ public class Test10 {
 	
 	public static void main(String[] args) {
 		
-		/*
-		StringFunc sf = Test10::func;
+		
+		//StringFunc sf = Test10::func;
+		Test10 obj = new Test10();
+		StringFunc sf = obj::func;
 		
 		String str = "Korea,Australia,China,Germany,Spain,Turkey";
 		String result = sf.modify(str);
@@ -32,14 +34,6 @@ public class Test10 {
 		
 		String str2 = "서울,북경,도쿄,뉴욕,발리";
 		result = sf.modify(str2);
-		System.out.println(result);
-		*/
-		
-		Test10 obj = new Test10();
-		StringFunc sf = obj::func;
-		
-		String str = "Korea,Australia,China,Germany,Spain,Turkey";
-		String result = sf.modify(str);
 		System.out.println(result);
 				
 	}
