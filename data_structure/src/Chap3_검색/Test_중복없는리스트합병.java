@@ -28,12 +28,15 @@ public class Test_중복없는리스트합병 {
 		//구현할 부분 : 리스트에서 중복을 제거한다, 정렬후 호출하는 것을 전제로 구현
 
 		Set<String> set = new HashSet<>(al);
-		return new ArrayList<String>(set);
+		ArrayList<String> result = new ArrayList<>(set);
+        Collections.sort(result);
+        
+		return new ArrayList<String>(result);
 	}
 	
 	static void trimSpace(String[]arr) {
 		for (int i = 0; i < arr.length; i++) {
-			arr[i] = arr[i].trim();
+			arr[i] = arr[i].strip();
 		}
 	}
 	static void makeList(String[] sarray1, List<String>list1) {
@@ -46,7 +49,7 @@ public class Test_중복없는리스트합병 {
 		ArrayList<String> list3 = new ArrayList<>();
 		
 		list3.addAll(list1);
-		list3.addAll(list2);
+		list3.addAll(list2);		
 		
 		return list3;
 	}
@@ -76,10 +79,12 @@ public class Test_중복없는리스트합병 {
 			
 			String s1 = new String(bytes1);
 			String s2 = new String(bytes2);
+			
 			System.out.println("입력 스트링: s1 = \n\n" + s1 + "\n");
 			System.out.println("입력 스트링: s2 = \n\n" + s2 + "\n");
 			String[] sarray1 = s1.split("[,\\s]+\r\n");// 자바 regex \n으로 검색
 			String[] sarray2 = s2.split("[,\\s]+\r\n");//file에서 enter키는 \r\n으로 해야 분리됨
+			
 			showData("스트링 배열 sarray1", sarray1);
 			showData("스트링 배열 sarray2", sarray2);
 

@@ -18,6 +18,8 @@ public class train_스트링리스트정렬 {
 	    	list.remove(item);
 	    	
 	    	return list.toArray(new String[list.size()]);
+	    	
+//	    	return list.toArray(String[]::new);
 	    }
 	    
 	    static void getList(List<String> list) {
@@ -47,6 +49,7 @@ public class train_스트링리스트정렬 {
 	    	String cities[] = new String[0];
 		    cities = list.toArray(cities);
 		    
+		    // 교수님 풀이
 		    int count = cities.length;
 		    for(int i = 0; i < count; i++) {
 		    	int j = i + 1;
@@ -61,6 +64,13 @@ public class train_스트링리스트정렬 {
 		    }
 		    
 		    return cities;
+		    
+//		    // 내 풀이
+//		    ArrayList<String> result = new ArrayList<>();
+//		    for(int i = 0; i < cities.length; i++)
+//		    	if(!result.contains(cities[i])) result.add(cities[i]);
+//		    
+//		    return result.toArray(new String[result.size()]);
 	    }
 		public static void main(String[] args) {
 			
