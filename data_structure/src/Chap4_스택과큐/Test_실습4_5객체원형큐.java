@@ -48,7 +48,7 @@ class CircularQueue {
 	static int QUEUE_SIZE = 0;
 	Point5[] que;//배열로 객체원형 큐 구현
 	int front, rear;
-	int num;
+//	int num;
 	static boolean isEmptyTag;
 
 	//--- 실행시 예외: 큐가 비어있음 ---//
@@ -66,7 +66,8 @@ class CircularQueue {
 	}
 
 	public CircularQueue(int count) {
-		num = front = rear = 0;
+		isEmptyTag = true;
+		front = rear = 0;
 		QUEUE_SIZE = count;
 		try {
 			que = new Point5[QUEUE_SIZE]; // 큐 본체용 배열을 생성
@@ -79,26 +80,27 @@ class CircularQueue {
 		if (isFull())
 			throw new OverflowQueueException("enque: stack overflow"); // 큐가 가득 찼음
 		que[rear++] = it;
-		num++;
 		if (rear == QUEUE_SIZE)
 			rear = 0;
+		if (front == rear) isEmptyTag = false; //수정:원형큐
 	}
 
 	Point5 pop() throws EmptyQueueException{
 		if (isEmpty())
 			throw new EmptyQueueException("deque: empty stack"); // 큐가 비어있음
 		Point5 x = que[front++];
-		num--;
 		if (front == QUEUE_SIZE)
 			front = 0;
+		if (front == rear) isEmptyTag = true; //수정:원형큐
 		return x;
 	}
 
 	 void clear() throws EmptyQueueException{
 		 if (isEmpty()) // 스택이 빔
 				throw new EmptyQueueException("clear: empty stack");	
-		num = front = rear = 0;
-		//que = new Point5[QUEUE_SIZE];
+		front = rear = 0;
+		que = new Point5[QUEUE_SIZE];
+		isEmptyTag = true;
 	}
 
 
@@ -109,23 +111,29 @@ class CircularQueue {
 
 	//--- 큐에 쌓여 있는 데이터 개수를 반환 ---//
 		public int size() {
-			return num;
+			if(isEmpty()) return 0;
+			if(isFull()) return QUEUE_SIZE;
+			
+			if (rear > front) return rear - front;
+			else return rear + QUEUE_SIZE - front; //체크
 		}
 		//--- 원형 큐가 비어있는가? --- 수정 필요//
 		public boolean isEmpty() {
-			return num <= 0;
+			if (front == rear && isEmptyTag) return true;
+			else return false;
 		}
 
 	//--- 원형 큐가 가득 찼는가? --- 수정 필요//
 		public boolean isFull() {
-			return num >= QUEUE_SIZE;
+			if (front == rear && !isEmptyTag) return true;
+			else return false;
 		}
 
 		public void dump() throws EmptyQueueException{
 			if (isEmpty())
 				throw new EmptyQueueException("dump: empty stack");
 			else {
-				for (int i = 0; i < num; i++)
+				for (int i = 0; i < this.size(); i++)
 					System.out.print(que[(i + front) % QUEUE_SIZE] + " ");
 				System.out.println();
 			}
@@ -138,75 +146,75 @@ class CircularQueue {
 }
 
 public class Test_실습4_5객체원형큐 {
-public static void main(String[] args) {
-	Scanner stdIn = new Scanner(System.in);
-	CircularQueue oq = new CircularQueue(4); // 최대 64개를 인큐할 수 있는 큐
-	Random random = new Random();
-	int rndx = 0, rndy = 0;
-	Point5 p = null;
-	while (true) {
-		System.out.println(" "); // 메뉴 구분을 위한 빈 행 추가
-		System.out.printf("현재 데이터 개수: %d / %d\n", oq.size(), oq.getCapacity());
-		System.out.print("(1)인큐　(2)디큐　(3)피크　(4)덤프　(5)clear  (0)종료: ");
-		int menu = stdIn.nextInt();
-		if (menu == 0)
-			break;
-		
-		switch (menu) {
-		case 1: // 인큐
-
-			rndx = random.nextInt(20);
-			rndy = random.nextInt(20);
-			System.out.print("입력데이터: (" + rndx + ", " + rndy + ")");
-			p = new Point5(rndx,rndy);
-			try {
-				oq.push(p);
-			} catch(CircularQueue.OverflowQueueException e) {
-				System.out.println("queue이 가득찼있습니다." + e.getMessage());
-				e.printStackTrace();
+	public static void main(String[] args) {
+		Scanner stdIn = new Scanner(System.in);
+		CircularQueue oq = new CircularQueue(4); // 최대 64개를 인큐할 수 있는 큐
+		Random random = new Random();
+		int rndx = 0, rndy = 0;
+		Point5 p = null;
+		while (true) {
+			System.out.println(" "); // 메뉴 구분을 위한 빈 행 추가
+			System.out.printf("현재 데이터 개수: %d / %d\n", oq.size(), oq.getCapacity());
+			System.out.print("(1)인큐　(2)디큐　(3)피크　(4)덤프　(5)clear  (0)종료: ");
+			int menu = stdIn.nextInt();
+			if (menu == 0)
+				break;
+			
+			switch (menu) {
+			case 1: // 인큐
+	
+				rndx = random.nextInt(20);
+				rndy = random.nextInt(20);
+				System.out.print("입력데이터: (" + rndx + ", " + rndy + ")");
+				p = new Point5(rndx,rndy);
+				try {
+					oq.push(p);
+				} catch(CircularQueue.OverflowQueueException e) {
+					System.out.println("queue이 가득찼있습니다." + e.getMessage());
+					e.printStackTrace();
+				}
+				break;
+	
+			case 2: // 디큐
+				try {
+					p = oq.pop();
+					System.out.println("디큐한 데이터는 " + p + "입니다.");
+				} catch (CircularQueue.EmptyQueueException e) {
+					System.out.println("queue이 비어있습니다." + e.getMessage());
+					e.printStackTrace();
+				}
+				break;
+	
+			case 3: // 피크
+				try {
+					p = oq.peek();
+					System.out.println("피크한 데이터는 " + p + "입니다.");
+				} catch (CircularQueue.EmptyQueueException e) {
+					System.out.println("queue이 비어있습니다." + e.getMessage());
+					e.printStackTrace();
+				}
+				break;
+	
+			case 4: // 덤프
+				try {
+					oq.dump();
+				} catch (CircularQueue.EmptyQueueException e) {
+					System.out.println("queue이 비어있습니다." + e.getMessage());
+					e.printStackTrace();
+				}
+				break;
+			case 5: // clear
+				try {
+					oq.clear();
+				} catch (CircularQueue.EmptyQueueException e) {
+					System.out.println("queue이 비어있습니다." + e.getMessage());
+					e.printStackTrace();
+				}
+				break;
+			default:
+				break;
 			}
-			break;
-
-		case 2: // 디큐
-			try {
-				p = oq.pop();
-				System.out.println("디큐한 데이터는 " + p + "입니다.");
-			} catch (CircularQueue.EmptyQueueException e) {
-				System.out.println("queue이 비어있습니다." + e.getMessage());
-				e.printStackTrace();
-			}
-			break;
-
-		case 3: // 피크
-			try {
-				p = oq.peek();
-				System.out.println("피크한 데이터는 " + p + "입니다.");
-			} catch (CircularQueue.EmptyQueueException e) {
-				System.out.println("queue이 비어있습니다." + e.getMessage());
-				e.printStackTrace();
-			}
-			break;
-
-		case 4: // 덤프
-			try {
-				oq.dump();
-			} catch (CircularQueue.EmptyQueueException e) {
-				System.out.println("queue이 비어있습니다." + e.getMessage());
-				e.printStackTrace();
-			}
-			break;
-		case 5: // clear
-			try {
-				oq.clear();
-			} catch (CircularQueue.EmptyQueueException e) {
-				System.out.println("queue이 비어있습니다." + e.getMessage());
-				e.printStackTrace();
-			}
-			break;
-		default:
-			break;
 		}
-	}
 	}
 
 	

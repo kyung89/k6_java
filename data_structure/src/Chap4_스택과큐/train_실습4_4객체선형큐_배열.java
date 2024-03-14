@@ -48,11 +48,11 @@ class Point3 {
 
 //int형 고정 길이 큐
 class objectQueue2 {
-  private Point3[] que;
-	private int capacity; // 큐의 크기
+  private Point3[] que; // que는 참조변수
+	private int capacity; // 큐의 크기 - 배열의 length
 	private int front; // 맨 처음 요소 커서
 	private int rear; // 맨 끝 요소 커서
-	private int num; // 현재 데이터 개수
+//	private int num; // 현재 데이터 개수 -> 이걸 쓰지 않고 코딩해보기
 
 	//--- 실행시 예외: 큐가 비어있음 ---//
 	public class EmptyQueueException extends RuntimeException {
@@ -67,11 +67,17 @@ class objectQueue2 {
 			super(message);
 		}
 	}
+	
+	public class BoundQueueException extends RuntimeException {
+		public BoundQueueException(String message) {
+			super(message);
+		}
+	}
 
 
 //--- 생성자(constructor) ---//
-	public objectQueue2(int maxlen) {
-		num = front = rear = 0;
+	public objectQueue2(int maxlen) { // maxlen: 배열의 크기만 매개변수로 받음
+		front = rear = 0;
 		capacity = maxlen;
 		try {
 			que = new Point3[capacity]; // 큐 본체용 배열을 생성
@@ -81,13 +87,13 @@ class objectQueue2 {
 	}
 
 //--- 큐에 데이터를 인큐 ---//
-	public Point3 enque(Point3 x) throws OverflowQueueException {
+	public Point3 enque(Point3 x) throws OverflowQueueException, BoundQueueException {
 		if (isFull())
 			throw new OverflowQueueException("enque: stack overflow"); // 큐가 가득 찼음
+		if (rear >= capacity)
+			throw new BoundQueueException("enque: stack bound");
 		que[rear++] = x;
-		num++;
-		if (rear == capacity)
-			rear = 0;
+		
 		return x;
 	}
 
@@ -96,9 +102,6 @@ class objectQueue2 {
 		if (isEmpty())
 			throw new EmptyQueueException("deque: empty stack"); // 큐가 비어있음
 		Point3 x = que[front++];
-		num--;
-		if (front == capacity)
-			front = 0;
 		return x;
 	}
 
@@ -113,13 +116,14 @@ class objectQueue2 {
 	public void clear() {
 		if (isEmpty())
 			throw new EmptyQueueException("clear: empty stack"); // 큐가 비어있음
-		num = front = rear = 0;
+		front = rear = 0;
+		que = new Point3[capacity];
 	}
 
 //--- 큐에서 x를 검색하여 인덱스(찾지 못하면 –1)를 반환 ---//
 	public int indexOf(Point3 x) {
-		for (int i = 0; i < num; i++) {
-			int idx = (i + front) % capacity;
+		for (int i = 0; i < this.size(); i++) {
+			int idx = (i + front);
 			if (que[idx].equals(x)) // 검색 성공
 				return idx;
 		}
@@ -133,17 +137,18 @@ class objectQueue2 {
 
 //--- 큐에 쌓여 있는 데이터 개수를 반환 ---//
 	public int size() {
-		return num;
+//		return num;
+		return rear-front;
 	}
 
 //--- 큐가 비어있는가? ---//
 	public boolean isEmpty() {
-		return num <= 0;
+		return this.size() <= 0;
 	}
 
 //--- 큐가 가득 찼는가? ---//
 	public boolean isFull() {
-		return num >= capacity;
+		return this.size() >= capacity;
 	}
 
 //--- 큐 안의 모든 데이터를 프런트 → 리어 순으로 출력 ---//
@@ -151,8 +156,8 @@ class objectQueue2 {
 		if (isEmpty())
 			throw new EmptyQueueException("dump: empty stack"); // 큐가 비어있음
 		else {
-			for (int i = 0; i < num; i++)
-				System.out.print(que[(i + front) % capacity] + " ");
+			for (int i = 0; i < this.size(); i++)
+				System.out.print(que[(i + front)] + " ");
 			System.out.println();
 		}
 	}
@@ -184,6 +189,9 @@ public class train_실습4_4객체선형큐_배열 {
 					oq.enque(p);
 				} catch(objectQueue2.OverflowQueueException e) {
 					System.out.println("queue이 가득찼있습니다." + e.getMessage());
+					e.printStackTrace();
+				} catch(objectQueue2.BoundQueueException e) {
+					System.out.println("queue bound 도달." + e.getMessage());
 					e.printStackTrace();
 				}
 				break;

@@ -15,7 +15,8 @@ class IntQueue3 {
 	private int capacity; // 큐의 크기
 	private int front; // 맨 처음 요소 커서
 	private int rear; // 맨 끝 요소 커서
-	private int num; // 현재 데이터 개수
+//	private int num; // 현재 데이터 개수
+	static boolean isEmptyTag;
 
 	//--- 실행시 예외: 큐가 비어있음 ---//
 	public class EmptyIntQueue3Exception extends RuntimeException {
@@ -34,7 +35,8 @@ class IntQueue3 {
 
 //--- 생성자(constructor) ---//
 	public IntQueue3(int maxlen) {
-		num = front = rear = 0;
+		isEmptyTag = true;
+		front = rear = 0;
 		capacity = maxlen;
 		try {
 			que = new int[capacity]; // 큐 본체용 배열을 생성
@@ -48,9 +50,9 @@ class IntQueue3 {
 		if (isFull())
 			throw new OverflowIntQueue3Exception("enque: stack overflow"); // 큐가 가득 찼음
 		que[rear++] = x;
-		num++;
 		if (rear == capacity)
 			rear = 0;
+		if (front == rear) isEmptyTag = false;
 		return x;
 	}
 
@@ -59,9 +61,9 @@ class IntQueue3 {
 		if (isEmpty())
 			throw new EmptyIntQueue3Exception("deque: empty stack"); // 큐가 비어있음
 		int x = que[front++];
-		num--;
 		if (front == capacity)
 			front = 0;
+		if (front == rear) isEmptyTag = true;
 		return x;
 	}
 
@@ -76,13 +78,14 @@ class IntQueue3 {
 	public void clear() {
 		if (isEmpty()) // 스택이 빔
 			throw new EmptyIntQueue3Exception("clear: empty stack");
-		
-		num = front = rear = 0;
+		front = rear = 0;
+		que = new int[capacity];
+		isEmptyTag = true;
 	}
 	
 //--- 큐에서 x를 검색하여 인덱스(찾지 못하면 –1)를 반환 ---//
 	public int indexOf(int x) {
-		for (int i = 0; i < num; i++) {
+		for (int i = 0; i < this.size(); i++) {
 			int idx = (i + front) % capacity;
 			if (que[idx] == x) // 검색 성공
 				return idx;
@@ -97,17 +100,24 @@ class IntQueue3 {
 
 //--- 큐에 쌓여 있는 데이터 개수를 반환 ---//
 	public int size() {
-		return num;
+//		return num;
+		if(isEmpty()) return 0;
+		if(isFull()) return capacity;
+		
+		if (rear > front) return rear - front;
+		else return rear + capacity - front; //체크
 	}
 
 //--- 원형 큐가 비어있는가? --- 수정 필요//
 	public boolean isEmpty() {
-		return num <= 0;
+		if (front == rear && isEmptyTag) return true;
+		else return false;
 	}
 
 //--- 원형 큐가 가득 찼는가? --- 수정 필요//
 	public boolean isFull() {
-		return num >= capacity;
+		if (front == rear && !isEmptyTag) return true;
+		else return false;
 	}
 
 //--- 큐 안의 모든 데이터를 프런트 → 리어 순으로 출력 ---//
@@ -115,7 +125,7 @@ class IntQueue3 {
 		if (isEmpty())
 			throw new EmptyIntQueue3Exception("dump: empty stack");
 		else {
-			for (int i = 0; i < num; i++)
+			for (int i = 0; i < this.size(); i++)
 				System.out.print(que[(i + front) % capacity] + " ");
 			System.out.println();
 		}

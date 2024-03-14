@@ -68,7 +68,7 @@ class IntStack {
 		if (isEmpty()) // 스택이 빔
 			throw new EmptyIntStackException();
 		ptr = 0;
-		//stk = new int[capacity];
+		stk = new int[capacity];
 	}
 //--- 스택에서 x를 찾아 인덱스(없으면 –1)를 반환 ---//
 	public int indexOf(int x) {

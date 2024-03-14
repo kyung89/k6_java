@@ -11,10 +11,11 @@ import java.util.List;
 import java.util.Random;
 
 //int형 고정 길이 큐
+// 리스트: capacity 없는 버전
 
-class Queue4 {
+class Queue4_2 {
 	private List<Integer> que;//원형큐로 구현하지 않는다 
-	private int capacity; // 큐의 크기
+//	private int capacity; // 큐의 크기
 	private int front; // 맨 처음 요소 커서
 	private int rear; // 맨 끝 요소 커서
 //	private int num; // 현재 데이터 개수
@@ -27,29 +28,29 @@ class Queue4 {
 	}
 
 	//--- 실행시 예외: 큐가 가득 찼음 ---//
-	public class OverflowQueueException extends RuntimeException {
-		public OverflowQueueException(String message) {
-			super(message);
-		}
-	}
+//	public class OverflowQueueException extends RuntimeException {
+//		public OverflowQueueException(String message) {
+//			super(message);
+//		}
+//	}
 
 
 //--- 생성자(constructor) ---//
-	public Queue4(int maxlen) {
+	public Queue4_2(int maxlen) {
 //		num = front = rear = 0;
 		front = rear = 0;
-		capacity = maxlen;
+//		capacity = maxlen;
 		try {
-			que = new ArrayList<Integer>(capacity); // 큐 본체용 배열을 생성
+			que = new ArrayList<Integer>(); // 큐 본체용 배열을 생성
 		} catch (OutOfMemoryError e) { // 생성할 수 없음
-			capacity = 0;
+//			capacity = 0;
 		}
 	}
 
 //--- 큐에 데이터를 인큐 ---//
-	public int enque(int x) throws OverflowQueueException {
-		if (isFull())
-			throw new OverflowQueueException("enque: stack overflow"); // 큐가 가득 찼음
+	public int enque(int x) {
+//		if (isFull())
+//			throw new OverflowQueueException("enque: stack overflow"); // 큐가 가득 찼음
 		que.add(x);
 		rear++;
 //		num++;
@@ -84,7 +85,7 @@ class Queue4 {
 				throw new EmptyQueueException("clear: empty stack");
 		
 		front = rear = 0;
-		que = new ArrayList<Integer>(capacity);
+		que = new ArrayList<Integer>();
 
 	}
 //--- 큐에서 x를 검색하여 인덱스(찾지 못하면 –1)를 반환 ---//
@@ -98,9 +99,9 @@ class Queue4 {
 	}
 
 //--- 큐의 크기를 반환 ---//
-	public int getCapacity() {
-		return capacity;
-	}
+//	public int getCapacity() {
+//		return capacity;
+//	}
 
 //--- 큐에 쌓여 있는 데이터 개수를 반환 ---//
 	public int size() {
@@ -114,9 +115,9 @@ class Queue4 {
 	}
 
 //--- 큐가 가득 찼는가? ---//
-	public boolean isFull() {
-		return this.size() >= capacity;
-	}
+//	public boolean isFull() {
+//		return this.size() >= capacity;
+//	}
 
 	public void dump() throws EmptyQueueException {
 		if (isEmpty())
@@ -129,15 +130,15 @@ class Queue4 {
 		}
 	}
 }
-public class train_실습4_4정수선형큐_리스트 {
+public class train_실습4_4정수선형큐_리스트2 {
 	public static void main(String[] args) {
 		Scanner stdIn = new Scanner(System.in);
-		Queue4 oq = new Queue4(4); // 최대 64개를 인큐할 수 있는 큐
+		Queue4_2 oq = new Queue4_2(4); // 최대 64개를 인큐할 수 있는 큐
 		Random random = new Random();
 		int rndx = 0, p = 0;
 		while (true) {
 			System.out.println(" "); // 메뉴 구분을 위한 빈 행 추가
-			System.out.printf("현재 데이터 개수: %d / %d\n", oq.size(), oq.getCapacity());
+			System.out.printf("현재 데이터 개수: %d \n", oq.size());
 			System.out.print("(1)인큐　(2)디큐　(3)피크　(4)덤프　(5)clear  (0)종료: ");
 			int menu = stdIn.nextInt();
 			if (menu == 0)
@@ -147,19 +148,14 @@ public class train_실습4_4정수선형큐_리스트 {
 			case 1: // 인큐
 				rndx = random.nextInt(20);
 				System.out.print("입력데이터: (" + rndx +")");
-				try {
-					oq.enque(rndx);
-				} catch(Queue4.OverflowQueueException e) {
-					System.out.println("queue이 가득찼있습니다." + e.getMessage());
-					e.printStackTrace();
-				}
+				oq.enque(rndx);
 				break;
 
 			case 2: // 디큐
 				try {
 					p = oq.deque();
 					System.out.println("디큐한 데이터는 " + p + "입니다.");
-				} catch (Queue4.EmptyQueueException e) {
+				} catch (Queue4_2.EmptyQueueException e) {
 					System.out.println("queue이 비어있습니다." + e.getMessage());
 					e.printStackTrace();
 				}
@@ -169,7 +165,7 @@ public class train_실습4_4정수선형큐_리스트 {
 				try {
 					p = oq.peek();
 					System.out.println("피크한 데이터는 " + p + "입니다.");
-				} catch (Queue4.EmptyQueueException e) {
+				} catch (Queue4_2.EmptyQueueException e) {
 					System.out.println("queue이 비어있습니다." + e.getMessage());
 					e.printStackTrace();
 				}
@@ -177,7 +173,7 @@ public class train_실습4_4정수선형큐_리스트 {
 			case 4: // 덤프
 				try {
 					oq.dump();
-				} catch (Queue4.EmptyQueueException e) {
+				} catch (Queue4_2.EmptyQueueException e) {
 					System.out.println("queue이 비어있습니다." + e.getMessage());
 					e.printStackTrace();
 				}
@@ -185,7 +181,7 @@ public class train_실습4_4정수선형큐_리스트 {
 			case 5: //clear
 				try {
 					oq.clear();
-				} catch (Queue4.EmptyQueueException e) {
+				} catch (Queue4_2.EmptyQueueException e) {
 					System.out.println("queue이 비어있습니다." + e.getMessage());
 					e.printStackTrace();
 				}
