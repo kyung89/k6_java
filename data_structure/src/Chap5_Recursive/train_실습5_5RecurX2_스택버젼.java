@@ -2,7 +2,15 @@ package Chap5_Recursive;
 
 //재귀에 대한 이해를 돕는 순수 재귀 메서드(재귀를 제거)
 
+
+
+//교재 175 페이지 
+//
+//실습 5-5 구현 실습
+
+
 import java.util.Scanner;
+
 
 class IntStack {
 	private int[] data; // 스택용 배열
@@ -31,18 +39,35 @@ class IntStack {
 			capacity = 0;
 		}
 	}
+	
+//--- 스택에 x를 푸시 ---//
+	public void push(int x) throws OverflowIntStackException {
+		if (isFull()) // 스택이 가득 참
+			throw new OverflowIntStackException();
+		data[top++] = x;
+	}
+
+//--- 스택에서 데이터를 팝(정상에 있는 데이터를 꺼냄) ---//
+	public int pop() throws EmptyIntStackException {
+		if (isEmpty()) // 스택이 빔
+			throw new EmptyIntStackException();
+		return data[--top];
+	}
 
 	
 	// --- 스택에서 데이터를 피크(peek, 정상에 있는 데이터를 들여다봄) ---//
 	public int peek() throws EmptyIntStackException {
-		if (top <= 0) // 스택이 빔
+		if (isEmpty()) // 스택이 빔
 			throw new EmptyIntStackException();
 		return data[top - 1];
 	}
 
 	// --- 스택을 비움 ---//
 	public void clear() {
+		if (isEmpty()) // 스택이 빔
+			throw new EmptyIntStackException();
 		top = 0;
+		data = new int[capacity];
 	}
 
 	// --- 스택에서 x를 찾아 인덱스(벌견하지 못하면 –1)를 반환 ---//
@@ -58,10 +83,29 @@ class IntStack {
 		return capacity;
 	}
 
+	public int size() {
+		return top;
+	}
+
+//--- 스택이 비어있는가? ---//
+	public boolean isEmpty() {
+		return top <= 0;
+	}
+
+//--- 스택이 가득 찼는가? ---//
+	public boolean isFull() {
+		return top >= capacity;
+	}
 	
 	// --- 스택 안의 모든 데이터를 바닥 → 정상 순서로 표시 ---//
 	public void dump() {
-
+		if (isEmpty()) {
+			throw new EmptyIntStackException();
+		} else {
+			for (int i = 0; i < top; i++)
+				System.out.print(data[i] + " ");
+			System.out.println();
+		}
 	}
 }
 public class train_실습5_5RecurX2_스택버젼 {
@@ -70,6 +114,18 @@ public class train_실습5_5RecurX2_스택버젼 {
 		IntStack s = new IntStack(n);
 
 		while (true) {
+			if (n > 0) {
+				s.push(n);
+				n = n - 1;
+				continue;
+			}
+			if (s.isEmpty() != true) {
+				n = s.pop();
+				System.out.println(n);
+				n = n - 2;
+				continue;                                                                 
+			}
+			break;
 
 		}
 	}

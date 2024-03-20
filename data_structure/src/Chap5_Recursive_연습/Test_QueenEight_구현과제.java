@@ -1,4 +1,4 @@
-package Chap5_Recursive;
+package Chap5_Recursive_연습;
 
 //해가 256개 확인 필요 23.12.12
 import java.util.ArrayList;
@@ -190,77 +190,21 @@ public class Test_QueenEight_구현과제 {
 			st.push(p);// 스택에 현 위치 객체를 push
 			Point temp = null;
 			while (true) {
-				if(count == 8) {
-					numberSolutions++;
-					// SOLUTION 출력
-					System.out.println("solution " + numberSolutions);
-					showQueens(d);
-					
-					// column 이전으로 이동
-					try {
-						temp = st.pop();
-					} catch (Stack5.EmptyGenericStackException e) {
-						e.printStackTrace();
-					}
-					
-					// 이동전 column 의 값 삭제
-					ix = temp.getX();
-					iy = temp.getY();
-					d[ix][iy] = 0;
-					
-					// column 이동에 따른 count 수정
-					count--;
-					
-					// 다음 column으로 이동
-					iy++;
-				}
 				
-				// 다음 col 구하기
-				int nextCol = nextMove(d, ix, iy);
-
-				if(nextCol == -1) {
-					// 다음 col 이 없으면 이전으로 돌아간다
-					try {
-						temp = st.pop();
-					} catch (Stack5.EmptyGenericStackException e) {
-						e.printStackTrace();
-					}
-					ix = temp.getX();
-					iy = temp.getY();
-					d[ix][iy] = 0;
-					count--;
-					iy++;
-					
-					// 다음 col은 없는데, 해가 없거나 해를 다 구하였을 경우 while 문을 종료한다
-					if(ix==0 && iy==8) break;
-				}else {
-					// 다음 col 이 있는 경우
-					iy = nextCol;
-					d[ix][iy] = 1;
-					st.push(new Point(ix, iy));
-					count++;
-					ix++; // 다음으로 넘어간다
-					iy = 0; // 탐색할 iy 0으로 초기화
-				}
 			}
 
 		}
 		public static boolean checkRow(int[][] d, int crow) { //배열 d에서 행 crow에 퀸을 배치할 수 있는지 조사
 			
 			for (int spot : d[crow])
-				if(spot == 1) {
-					return false;
-				}
+				if(spot == 1) return false;
 			return true;
 		}
 
 		public static boolean checkCol(int[][] d, int ccol) {//배열 d에서 열 ccol에 퀸을 배치할 수 있는지 조사
 			
-			for (int[] row : d) {
-				if(row[ccol] == 1) {
-					return false;
-				}
-			}
+			for (int[] row : d) 
+				if(row[ccol] == 1) return false;
 			return true;
 		}
 		
@@ -277,6 +221,9 @@ public class Test_QueenEight_구현과제 {
 			int x = cx; int y = cy;
 			while(0 <= x && x <= 7 && 0 <= y && y <= 7) {
 				if(d[x][y] == 1) return false;
+				if(x == d.length-1 || y == 0){
+					break;
+				}
 				x++; y--;
 			}
 
@@ -284,6 +231,9 @@ public class Test_QueenEight_구현과제 {
 			x = cx; y = cy;
 			while(0 <= x && x <= 7 && 0 <= y && y <= 7) {
 				if(d[x][y] == 1) return false;
+				if(x == 0 || y == d.length-1){
+					break;
+				}
 				x--; y++;
 			}
 			
@@ -299,6 +249,9 @@ public class Test_QueenEight_구현과제 {
 			int x = cx; int y = cy;
 			while(0 <= x && x <= 7 && 0 <= y && y <= 7) {
 				if(d[x][y] == 1) return false;
+				if(x == d.length-1 || y == d.length-1){
+					break;
+				}
 				x++; y++;
 			}
 
@@ -306,7 +259,9 @@ public class Test_QueenEight_구현과제 {
 			x = cx; y = cy;
 			while(0 <= x && x <= 7 && 0 <= y && y <= 7) {
 				if(d[x][y] == 1) return false;
-
+				if(x == 0 || y == 0){
+					break;
+				}
 				x--; y--;
 			}
 			
@@ -322,7 +277,7 @@ public class Test_QueenEight_구현과제 {
 		//배열 d에서 현재 위치(row,col)에 대하여 다음에 이동할 위치 nextCol을 반환, 이동이 가능하지 않으면 -1를 리턴
 		public static int nextMove(int[][] d, int row, int col) {// 현재 row, col에 대하여 이동할 col을 return
 
-			for(int i = col; i < d[0].length; i++) { // 현재 위치하는 col 부터는 당연히 퀸이 위치할 수 없음
+			for(int i = col; i < d[0].length; i++) {
 				if(checkMove(d, row, i)) {
 					return i;
 				}

@@ -3,6 +3,10 @@ package Chap5_Recursive;
 import java.util.ArrayList;
 import java.util.List;
 
+//1. 첨부 설명 문서를 보고 구현
+//
+//2. stack을 사용한 구현
+
 enum Directions2 {N, NE, E, SE, S, SW, W, NW}
 class Items3 {
 	int x;
@@ -120,13 +124,13 @@ class Offsets3 {
 
 	public class Test_MazingProblem_미로찾기 {
 
-		static Offsets[] moves = new Offsets[8];//static을 선언하는 이유를 알아야 한다
+		static Offsets3[] moves = new Offsets3[8];//static을 선언하는 이유를 알아야 한다
 
 		public static void path(int[][] maze, int[][] mark, int ix, int iy) {
 
 			mark[1][1] = 1;
 			StackList st = new StackList(50);
-			Items temp = new Items(0, 0, 0);//N :: 0
+			Items3 temp = new Items3(0, 0, 0);//N :: 0
 			temp.x = 1;
 			temp.y = 1;
 			temp.dir = 2;//E:: 2
@@ -135,7 +139,7 @@ class Offsets3 {
 
 			while (!st.isEmpty()) // stack not empty
 			{
-				Items tmp = st.pop(); // unstack
+				Items3 tmp = st.pop(); // unstack
 				int i = tmp.x;
 				int j = tmp.y;
 				int d = tmp.dir;
@@ -183,7 +187,7 @@ class Offsets3 {
 					{ 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0 },
 					{ 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0 }};
 			for (int ia = 0; ia < 8; ia++)
-				moves[ia] = new Offsets(0, 0);//배열에 offsets 객체를 치환해야 한다.
+				moves[ia] = new Offsets3(0, 0);//배열에 offsets 객체를 치환해야 한다.
 			moves[0].a = -1;	moves[0].b = 0;
 			moves[1].a = -1;	moves[1].b = 1;
 			moves[2].a = 0;		moves[2].b = 1;
