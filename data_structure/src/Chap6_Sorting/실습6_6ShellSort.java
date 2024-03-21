@@ -11,11 +11,13 @@ class 실습6_6ShellSort {
  //--- 셸 정렬 ---//
  static void shellSort(int[] a, int n) {
 	 int count = 0;
+	 // h를 사용해서 대략 정렬: h = 4,2,1 에 대하여 반복
      for (int h = n / 2; h > 0; h /= 2)//n = 8 등 짝수일 때 4,2 등으로 효과가 적다
-         for (int i = h; i < n; i++) {
+         for (int i = h; i < n; i++) { // i는 4,5,6 등에 대하여
+        	 // insertion sort 소스 코드
              int j;
              int tmp = a[i];
-             for (j = i - h; j >= 0 && a[j] > tmp; j -= h) {
+             for (j = i - h; j >= 0 && a[j] > tmp; j -= h) { // i = 0,2,4,6 등으로 반복
             	 count++;
                  a[j + h] = a[j];
              }

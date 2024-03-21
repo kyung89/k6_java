@@ -11,6 +11,17 @@ class PhyscData implements Comparable<PhyscData>{
     String name;              // 이름
     int    height;            // 키
     double vision;            // 시력
+	public PhyscData(String name, int height, double vision) {
+		super();
+		this.name = name;
+		this.height = height;
+		this.vision = vision;
+	}
+	@Override
+	public int compareTo(PhyscData o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 
 

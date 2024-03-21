@@ -20,8 +20,8 @@ public class 실습6_4SelectionSort {
          for (int j = i + 1; j < n; j++)
          {
         	 count++;
-             if (a[j] < a[min])
-                 min = j;
+             if (a[j] < a[min]) // selection 하는 조건
+                 min = j; // 최소가 되는 인덱스가 selected
          }
          swap(a, i, min);           // 아직 정렬되지 않은 부분의 첫 요소와 가장 작은 요소를 교환
      }
