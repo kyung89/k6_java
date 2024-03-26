@@ -41,6 +41,10 @@ class SimpleObject {
 			name = sc.next();
 		}
 	}
+	
+	public boolean equals(SimpleObject p) {
+		return this.no.equals(p.no) && this.name.equals(p.name);
+	}
 
 	// --- 회원번호로 순서를 매기는 comparator ---//
 	public static final Comparator<SimpleObject> NO_ORDER = new NoOrderComparator();
@@ -50,6 +54,7 @@ class SimpleObject {
 		public int compare(SimpleObject d1, SimpleObject d2) {
 			return (d1.no.compareTo(d2.no) > 0) ? 1 : (d1.no.compareTo(d2.no)<0) ? -1 : 0;
 		}
+		
 	}
 
 	// --- 이름으로 순서를 매기는 comparator ---//
@@ -60,6 +65,7 @@ class SimpleObject {
 		public int compare(SimpleObject d1, SimpleObject d2) {
 			return d1.name.compareTo(d2.name);
 		}
+		
 	}
 }
 class Node2 {
@@ -77,19 +83,98 @@ class LinkedList2 {
 		first = null;
 	}
 
-	public int Delete(SimpleObject element, Comparator<SimpleObject> cc) //delete the element
+	//public int Delete(SimpleObject element, Comparator<SimpleObject> cc) //delete the element
+	public boolean Delete(SimpleObject element, Comparator<SimpleObject> cc) //delete the element
 	{
-		return 0;
+	
+		Node2 q, current = first;
+		q = current;
+		
+		//구현코드
+		// 나머지 완성하라: 맨앞에 삭제, 중간에 삭제, 맨 뒤에 삭제
+		if(current == null) return false;
+		
+		// 맨 앞에 삭제
+		if(cc.compare(element, current.data) < 0) return false;
+		if(cc.compare(element, current.data) == 0) {
+			current = current.link;
+			return true;
+		}
+		
+		// 중간에 삭제
+		while(current != null) {
+			if(cc.compare(element, current.data) > 0) { 
+				q = current;
+				current = current.link;
+			} else if(cc.compare(element, current.data) == 0) {
+				// insert 해야한다
+				q.link = current.link;
+				return true;
+			}
+		}
+		
+		// 맨 뒤에 삭제
+		if(cc.compare(element, q.data) == 0) {
+			q = null;
+			return true;
+		}
+
+		return false;// 삭제할 대상이 없다.
 
 	}
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
-
+		Node2 p = first;
+		while(p != null) {
+			System.out.print(p.data + "  ");
+			p = p.link;
+		}
+		System.out.println();
 	}
 	public void Add(SimpleObject element, Comparator<SimpleObject> cc) //임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
 	{
-
+		Node2 newNode = new Node2(element);
+		
+		if(first == null) {
+			first = newNode;
+			return;
+		}else {
+			
+			// 맨앞에 비교
+			if(cc.compare(element, first.data) < 0) {
+				newNode.link = first;
+				first = newNode;
+				return;
+			}
+			
+			Node2 p = first, q = null;
+			while(p != null) {
+				//if(element > p.data ) { 
+				if(cc.compare(element, p.data) > 0) { 
+					q = p;
+					p = p.link;
+				} else {
+					// insert 해야한다
+					newNode.link = p;
+					q.link = newNode;
+					return;
+				}
+			}
+			
+			// 맨뒤에 비교
+			if(cc.compare(element, q.data) > 0) {
+				q.link = newNode;
+				return;
+			}
+		}
 	}
 	public boolean Search(SimpleObject element, Comparator<SimpleObject> cc) { // 전체 리스트를 순서대로 출력한다.
+		
+		Node2 ptr = first;
+		while(ptr != null) {
+			System.out.println("check: " + ptr.data);
+			if(cc.compare(element, ptr.data) == 0) return true;
+			ptr = ptr.link;
+		}
 
 		return false;
 	}
@@ -146,7 +231,7 @@ public class 실습9_2객체연결리스트_test {
 		LinkedList2 l = new LinkedList2();
 		Scanner sc = new Scanner(System.in);
 		SimpleObject data;
-    System.out.println("inserted");
+		System.out.println("inserted");
 	     l.Show();
 	        do {
 	            switch (menu = SelectMenu()) {
@@ -158,7 +243,8 @@ public class 실습9_2객체연결리스트_test {
 	             case Delete :                          // 머리 노드 삭제
 	            	 data = new SimpleObject();
 	            	 data.scanData("삭제", SimpleObject.NO);
-	            	 int num = l.Delete(data, SimpleObject.NO_ORDER);
+	            	 //int num = l.Delete(data, SimpleObject.NO_ORDER);
+	            	 boolean num = l.Delete(data, SimpleObject.NO_ORDER);
 	            	 System.out.println("삭제된 데이터 성공은 " + num);
 	                    break;
 	             case Show :                           // 꼬리 노드 삭제

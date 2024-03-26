@@ -79,26 +79,128 @@ class Node3 {
 
 class CircularList {
 	Node3 first;
+	int size; // 추가: 나중에 교수님께 질문할 것
 
 	public CircularList() { //head node
-
+		first = null;
 	}
 
-	public int Delete(SimpleObject3 element, Comparator<SimpleObject3> cc) // delete the element
+	//public int Delete(SimpleObject3 element, Comparator<SimpleObject3> cc) // delete the element
+	public boolean Delete(SimpleObject3 element, Comparator<SimpleObject3> cc) // delete the element
 	{
-		return 0;
+		Node3 q, current = first;
+		q = current;
+		
+		//구현코드
+		// 나머지 완성하라: 맨앞에 삭제, 중간에 삭제, 맨 뒤에 삭제
+		if(current == null) return false;
+		
+		// 맨 앞에 삭제
+		if(cc.compare(element, current.data) < 0) return false;
+		if(cc.compare(element, current.data) == 0) {
+			current = current.link;
+			while(q.link != null) {
+				q = q.link;
+			}
+			q.link = current;
+			size--;
+			return true;
+		}
+		
+		// 중간에 삭제
+		while(current != null) {
+			if(cc.compare(element, current.data) > 0) { 
+				q = current;
+				current = current.link;
+			} else if(cc.compare(element, current.data) == 0) {
+				// insert 해야한다
+				q.link = current.link;
+				size--;
+				return true;
+			}
+		}
+		
+		// 맨 뒤에 삭제
+		if(cc.compare(element, q.data) == 0) {
+			q = null;
+			Node3 p = current;
+			while(p.link != null) {
+				p = p.link;
+			}
+			p.link = current;
+			size--;
+			return true;
+		}
+
+		return false;// 삭제할 대상이 없다.
 	}
 
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
-
+		Node3 p = first;
+		int cnt = 0;
+		while(p != null && cnt < size) {
+			System.out.print(p.data + "  ");
+			p = p.link;
+			cnt++;
+		}
+		System.out.println();
 	}
 
 	public void Add(SimpleObject3 element, Comparator<SimpleObject3> cc) // 임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
 	{
-
+		Node3 newNode = new Node3(element);
+		
+		if(first == null) {
+			first = newNode;
+			first.link = first;
+			size++;
+			return;
+		}else {
+			
+			// 맨앞에 비교
+			if(cc.compare(element, first.data) <= 0) {
+				newNode.link = first;
+				first = newNode;
+				first.link = newNode;
+				size++;
+				return;
+			}
+			System.out.println("check1");
+			Node3 p = first, q = null;
+			int cnt = 0;
+			while(p != null && cnt < size) {
+				//if(element > p.data ) { 
+				if(cc.compare(element, p.data) > 0) { 
+					q = p;
+					p = p.link;
+					cnt++;
+				} else {
+					// insert 해야한다
+					newNode.link = p;
+					q.link = newNode;
+					size++;
+					return;
+				}
+			}
+			
+			System.out.println("check2");
+			// 맨뒤에 비교
+			if(cc.compare(element, q.data) >= 0) {
+				q.link = newNode;
+				newNode.link = first;
+				size++;
+				return;
+			}
+		}
 	}
 
 	public boolean Search(SimpleObject3 element, Comparator<SimpleObject3> cc) { // 전체 리스트를 순서대로 출력한다.
+		Node3 ptr = first;
+		while(ptr != null) {
+			System.out.println("check: " + ptr.data);
+			if(cc.compare(element, ptr.data) == 0) return true;
+			ptr = ptr.link;
+		}
 		return false;
 	}
 }
@@ -159,7 +261,8 @@ public class 실습9_4객체원형리스트_test {
 			case Delete: // 머리 노드 삭제
 				data = new SimpleObject3();
 				data.scanData("삭제", SimpleObject3.NO);
-				int num = l.Delete(data, SimpleObject3.NO_ORDER);
+				//int num = l.Delete(data, SimpleObject3.NO_ORDER);
+				boolean num = l.Delete(data, SimpleObject3.NO_ORDER);
 				System.out.println("삭제된 데이터 성공은 " + num);
 				break;
 			case Show: // 꼬리 노드 삭제

@@ -129,7 +129,7 @@ public class Test_MazingProblem_미로찾기 {
 
 	public static void path(int[][] maze, int[][] mark, int ix, int iy) {
 
-		mark[1][1] = 2;
+//		mark[1][1] = 2;
 		StackList st = new StackList(50);
 		Items3 temp = new Items3(0, 0, 0);//N :: 0
 		temp.x = 1;
@@ -147,8 +147,6 @@ public class Test_MazingProblem_미로찾기 {
 			int j = tmp.y;
 			int d = tmp.dir;
 //			mark[i][j] = 1;//backtracking 궤적은 1로 표시 // 교수님께 질문해서 해결한 것: 여기서 1 대입말고
-			
-//			Items3 before_before = st.peek();
 			
 //			//출력해보기
 //            System.out.println();
@@ -172,8 +170,6 @@ public class Test_MazingProblem_미로찾기 {
 	            }
 	            if (maze[g][h] == 0 && mark[g][h] == 0) { // 새로운 위치이고, 이동 가능한 경우
 	                Items3 next = new Items3(g, h, 0); // 다음 위치를 생성
-	    			
-//	                if(before_before != null && mark[before_before.x][before_before.y] == 2) mark[i][j] = 2;
 	                
 	                mark[g][h] = 2; // 궤적 표시	                
 	                st.push(next); // 스택에 다음 위치 추가

@@ -55,6 +55,7 @@ class SimpleObject2 {
 	private static class NameOrderComparator implements Comparator<SimpleObject2> {
 		@Override
 		public int compare(SimpleObject2 d1, SimpleObject2 d2) {
+			// 오름자순 1: d2, d1 -1: d1, d2
 			return (d1.name.compareTo(d2.name) > 0) ? 1 : ((d1.name.compareTo(d2.name) < 0)) ? -1 : 0;
 		}
 	}
@@ -102,26 +103,156 @@ class DoubledLinkedList2 {
 
 // --- 노드를 검색 ---//
 	public boolean search(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
+		Node4 ptr = first;
+		while(ptr != null) {
+			System.out.println("check: " + ptr.data);
+			if(c.compare(obj, ptr.data) == 0) return true;
+			ptr = ptr.rlink;
+		}
+
 		return false;
 	}
 
 // --- 전체 노드 표시 ---//
 	public void show() {
-
+		Node4 p = first;
+		while(p != null) {
+			System.out.print(p.data + "  ");
+			p = p.rlink;
+		}
+		System.out.println();
 	}
 
 // --- 올림차순으로 정렬이 되도록 insert ---//
 	public void add(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
-
-
+		
+		Node4 newNode = new Node4(obj);
+		
+		if(first == null) {
+			first = newNode;
+			return;
+		}else {
+			
+			// 맨앞에 비교
+			if(c.compare(obj, first.data) < 0) {
+				newNode.rlink = first;
+				first.llink = newNode;
+				first = newNode;
+				return;
+			}
+			
+			Node4 p = first, q = null;
+			while(p != null) {
+				//if(element > p.data ) { 
+				if(c.compare(obj, p.data) > 0) { 
+					q = p;
+					p = p.rlink;
+				} else {
+					// insert 해야한다
+					newNode.rlink = p;
+					q.rlink = newNode;
+					newNode.llink = q;
+					p.llink = newNode;
+					return;
+				}
+			}
+			
+			// 맨뒤에 비교
+			if(c.compare(obj, q.data) > 0) {
+				q.rlink = newNode;
+				newNode.llink = q;
+				return;
+			}
+		}
 	}
 
 // --- list에 삭제할 데이터가 있으면 해당 노드를 삭제 ---//
 	public void delete(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
+		
+		Node4 q, current = first;
+		q = current;
+		
+		//구현코드
+		// 나머지 완성하라: 맨앞에 삭제, 중간에 삭제, 맨 뒤에 삭제
+		if(current == null) return;
+		
+		// 맨 앞에 삭제
+		if(c.compare(obj, current.data) < 0) return;
+		if(c.compare(obj, current.data) == 0) {
+			current = current.rlink;
+			current.llink = null;
+			return;
+		}
+		
+		// 중간에 삭제
+		while(current != null) {
+			if(c.compare(obj, current.data) > 0) { 
+				q = current;
+				current = current.rlink;
+			} else if(c.compare(obj, current.data) == 0) {
+				// insert 해야한다
+				q.rlink = current.rlink;
+				current.rlink.llink = q;
+				return;
+			}
+		}
+		
+		// 맨 뒤에 삭제
+		if(c.compare(obj, q.data) == 0) {
+			q = null;
+			return;
+		}
+
+		return;// 삭제할 대상이 없다.
 
 	}
-	public DoubledLinkedList2 merge(DoubledLinkedList2 lst2) {
-		return null;
+	//public DoubledLinkedList2 merge(DoubledLinkedList2 lst2) { // 두가지 방법이 있다: 새로운 노드를 만들어 구현하는 방법, 기존의 노드를 활용하는 방법: 두 가지 다 해보자
+	public DoubledLinkedList2 merge(DoubledLinkedList2 lst2, Comparator<? super SimpleObject2> c) { // 두가지 방법이 있다: 새로운 노드를 만들어 구현하는 방법, 기존의 노드를 활용하는 방법: 두 가지 다 해보자
+		//return null;
+		
+		DoubledLinkedList2 resultList = new DoubledLinkedList2();
+		
+		Node4 thisNode = first;
+		Node4 mergeNode = lst2.first;
+		while(thisNode != null && mergeNode != null) {
+			
+			// 오름자순 1: d2, d1 -1: d1, d2
+			if(thisNode.compareNode(mergeNode) < 0) {
+				// thisNode, mergeNode 순
+				// resultList 에 thisNode 를 붙이고, thisNode 이동
+				resultList.add(thisNode.data, c);
+				thisNode = thisNode.rlink;
+			}if(thisNode.compareNode(mergeNode) > 0) {
+				// mergeNode, thisNode 순
+				// resultList 에 mergeNode 를 붙이고, mergeNode 이동
+				resultList.add(mergeNode.data, c);
+				mergeNode = mergeNode.rlink;
+				
+			}else {
+				// mergeNode == thisNode
+				// resultList 에 thisNode 와 mergeNode 를 붙이고, thisNode 와 mergeNode 이동 
+				resultList.add(thisNode.data, c);
+				resultList.add(mergeNode.data, c);
+				thisNode = thisNode.rlink;
+				mergeNode = mergeNode.rlink;
+			}
+		}
+		
+		if(thisNode != null) {
+			while(thisNode != null) {
+				resultList.add(thisNode.data, c);
+				thisNode = thisNode.rlink;
+			}
+		}
+		
+		if(mergeNode != null) {
+			while(mergeNode != null) {
+				resultList.add(mergeNode.data, c);
+				mergeNode = mergeNode.rlink;
+			}
+		}
+		
+		return resultList;
 
 	}
 }
@@ -202,7 +333,9 @@ public class 실습9_6객체이중리스트_test {
 					so.scanData("입력", 3);
 					lst2.add(so, SimpleObject2.NO_ORDER);
 				}
-				 lst3 = lst1.merge(lst2);
+
+				 //lst3 = lst1.merge(lst2);
+				 lst3 = lst1.merge(lst2, SimpleObject2.NO_ORDER);
 				 System.out.println("list1: ");
 				 lst1.show();
 				 System.out.println("list2: ");

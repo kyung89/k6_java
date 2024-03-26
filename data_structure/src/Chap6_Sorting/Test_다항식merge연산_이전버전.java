@@ -1,3 +1,5 @@
+// 다항식 merge 연산 이전 버전
+
 package Chap6_Sorting;
 
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ class Polynomial implements Comparable<Polynomial>{
 
 
 }
-public class Test_다항식merge연산 {
+public class Test_다항식merge연산_이전버전 {
 
 	static void merge(Polynomial[] a, int lefta, int righta, int leftb, int rightb ) {
 
