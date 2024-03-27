@@ -1,4 +1,4 @@
-package Chap8_List;
+package Chap8_List_before;
 
 public class 실습9_1정수연결리스트_test_1 {
 

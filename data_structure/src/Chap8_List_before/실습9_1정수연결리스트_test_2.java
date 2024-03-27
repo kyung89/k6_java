@@ -1,4 +1,4 @@
-package Chap8_List;
+package Chap8_List_before;
 //단순한 linked list에서 insert, delete하는 알고리즘을 코딩: 1단계
 
 import java.util.Random;
