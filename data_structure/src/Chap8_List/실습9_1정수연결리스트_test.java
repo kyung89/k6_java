@@ -149,46 +149,15 @@ class LinkedList1 {
 			bCurrent = bNext;
 		}
 		
+		// 출력해보기
 		System.out.println();
 		Show();
 		System.out.println("aCurrent.data = " + aCurrent.data);
 		System.out.println("bCurrent.data = " + bCurrent.data);
 		System.out.println();
 		
-		while(aCurrent != null || bCurrent != null) {
+		while(aCurrent.link != null && bCurrent.link != null) {	
 			
-			if(aCurrent.link == null) {
-				aCurrent.link = bCurrent;
-				break;
-			}
-			if(bCurrent.link == null) {
-				bCurrent.link = aCurrent;
-				
-				// aCurrent 13  -> 15
-				// bCurrent 14
-				if(aCurrent.data <= bCurrent.data && aCurrent.link.data >= bCurrent.data) {
-					Node1 bNext = bCurrent.link;
-					bCurrent.link = aCurrent.link;
-					aCurrent.link = bCurrent;
-					
-					aCurrent = aCurrent.link;
-					bCurrent=  bNext;
-					
-					System.out.println();
-					Show();
-					System.out.println("aCurrent.data = " + aCurrent.data); // 13, next 15
-					System.out.println("bCurrent.data = " + bCurrent.data); // 14, null
-					System.out.println();
-				
-				}
-				
-				break;
-			}		
-			
-			if(bCurrent.data < aCurrent.data) {
-				aCurrent = aCurrent.link;
-				continue;
-			}
 			
 			if(aCurrent.data <= bCurrent.data && aCurrent.link.data >= bCurrent.data) {
 				Node1 bNext = bCurrent.link;
@@ -198,13 +167,18 @@ class LinkedList1 {
 				aCurrent = aCurrent.link;
 				bCurrent=  bNext;
 				
+				if(bCurrent == null || aCurrent == null) break;
+				
 				System.out.println();
 				Show();
-				System.out.println("aCurrent.data = " + aCurrent.data); // 13, next 15
-				System.out.println("bCurrent.data = " + bCurrent.data); // 14, null
+				System.out.println("aCurrent.data = " + aCurrent.data); 
+				System.out.println("bCurrent.data = " + bCurrent.data); 
 				System.out.println();
 				
 				continue;
+				
+			}else {
+				aCurrent = aCurrent.link;
 			}
 			
 			
@@ -212,10 +186,11 @@ class LinkedList1 {
 				aCurrent = aCurrent.link;
 				continue;
 			}
-			
 		}
-		
-		
+
+		if(aCurrent.link == null && bCurrent != null) {
+			aCurrent.link = bCurrent;
+		}
 	}
 }
 
@@ -305,8 +280,8 @@ public class 실습9_1정수연결리스트_test {
 				LinkedList1 test1 = new LinkedList1();
 				LinkedList1 test2 = new LinkedList1();
 				
-				int[] A = {7, 10, 15, 21};
-				int[] B = {9, 11, 13, 14, 18, 22};
+				int[] A = {7, 10, 15, 21, 23, 25, 30, 49};
+				int[] B = {9, 11, 13, 14, 18, 22, 26, 27, 31, 32};
 				
 				for(int a : A) test1.Add(a);
 				for(int b : B) test2.Add(b);
