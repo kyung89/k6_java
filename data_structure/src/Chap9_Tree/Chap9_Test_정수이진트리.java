@@ -1,22 +1,23 @@
 package Chap9_Tree;
 
 import java.util.ArrayList;
-
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Scanner;
 
-class TreeNode {
-	TreeNode LeftChild;
+class TreeNode5 {
+	TreeNode5 LeftChild;
 	int data;
-	TreeNode RightChild;
+	TreeNode5 RightChild;
 
-	public TreeNode() {
+	public TreeNode5() {
 		LeftChild = RightChild = null;
 	}
 }
 
-class ObjectStack{
+class ObjectStack5{
 	//--- 실행시 예외: 스택이 비어있음 ---//
 	// generic class는 Throwable을 상속받을 수 없다 - 지원하지 않는다
 	public class EmptyGenericStackException extends Exception {
@@ -32,13 +33,13 @@ class ObjectStack{
 		}
 	}
 
-    private List<TreeNode> data;  // list를 사용: 배열은 크기를 2배로 늘리는 작업 필요 
+    private List<TreeNode5> data;  // list를 사용: 배열은 크기를 2배로 늘리는 작업 필요 
 	//private List<T> data;
 	private int capacity; // 스택의 크기
 	private int top; // 스택 포인터
 
 //--- 생성자(constructor) ---//
-	public ObjectStack(int capacity) {
+	public ObjectStack5(int capacity) {
 		top = 0;
 		this.capacity = capacity;
 		// this.data = new T[capacity]; // 스택 본체용 배열을 생성
@@ -50,7 +51,7 @@ class ObjectStack{
 	}
 
 //--- 스택에 x를 푸시 ---//
-	public boolean push(TreeNode x) throws OverflowGenericStackException {
+	public boolean push(TreeNode5 x) throws OverflowGenericStackException {
 		System.out.println("top = " + top +"capacity = " + capacity);
 		if (top >= capacity)
 			throw new OverflowGenericStackException();
@@ -60,14 +61,14 @@ class ObjectStack{
 	}
 
 //--- 스택에서 데이터를 팝(정상에 있는 데이터를 꺼냄) ---//
-	public TreeNode pop() throws EmptyGenericStackException  {
+	public TreeNode5 pop() throws EmptyGenericStackException  {
 		if (top < 0)
 			throw new EmptyGenericStackException();
 		return data.remove(--top);
 	}
 
 //--- 스택에서 데이터를 피크(peek, 정상에 있는 데이터를 들여다봄) ---//
-	public TreeNode peek() throws EmptyGenericStackException  {
+	public TreeNode5 peek() throws EmptyGenericStackException  {
 		if (top <= 0)
 			throw new EmptyGenericStackException();
 		return data.get(top - 1);
@@ -79,7 +80,7 @@ class ObjectStack{
 	}
 
 //--- 스택에서 x를 찾아 인덱스(없으면 –1)를 반환 ---//
-	public int indexOf(TreeNode x) {
+	public int indexOf(TreeNode5 x) {
 		for (int i = top - 1; i >= 0; i--) // 꼭대기 쪽부터 선형 검색
 			if (data.get(i).equals(x))
 				return i; // 검색 성공
@@ -118,8 +119,8 @@ class ObjectStack{
 	}
 }
 //정수를 저정하는 이진트리 만들기 실습
-class ObjectQueue {
-    private TreeNode[] que;//큐는 배열로 구현
+class ObjectQueue5 {
+    private TreeNode5[] que;//큐는 배열로 구현
 	//private List<Integer> que; // 수정본
 	private int capacity; // 큐의 크기
 	private int front; // 맨 처음 요소 커서
@@ -128,32 +129,33 @@ class ObjectQueue {
 
 //--- 실행시 예외: 큐가 비어있음 ---//
 	public class EmptyQueueException extends RuntimeException {
-		public EmptyQueueException() {
+		public EmptyQueueException(String msg) {
+			super(msg);
 		}
 	}
 
 //--- 실행시 예외: 큐가 가득 찼음 ---//
 	public class OverflowQueueException extends RuntimeException {
-		public OverflowQueueException() {
+		public OverflowQueueException(String msg) {
+			super(msg);
 		}
 	}
 
 //--- 생성자(constructor) ---//
-public ObjectQueue(int maxlen) {
+public ObjectQueue5(int maxlen) {
    num = front = rear = 0;
    capacity = maxlen;
    try {
-//       que = new int[capacity];          // 큐 본체용 배열을 생성
-	   que = new TreeNode[maxlen];
+	   que = new TreeNode5[maxlen];
    } catch (OutOfMemoryError e) {        // 생성할 수 없음
        capacity = 0;
    }
 }
 
 //--- 큐에 데이터를 인큐 ---//
-	public int enque(TreeNode x) throws OverflowQueueException {
+	public int enque(TreeNode5 x) throws OverflowQueueException {
 		if (num >= capacity)
-			throw new OverflowQueueException(); // 큐가 가득 찼음
+			throw new OverflowQueueException("queue full"); // 큐가 가득 찼음
 		que[rear++] = x; 
 		num++;
 
@@ -161,19 +163,19 @@ public ObjectQueue(int maxlen) {
 	}
 
 //--- 큐에서 데이터를 디큐 ---//
-	public TreeNode deque() throws EmptyQueueException {
+	public TreeNode5 deque() throws EmptyQueueException {
 		if (num <= 0)
-			throw new EmptyQueueException(); // 큐가 비어있음
-		TreeNode x = que[front++];
+			throw new EmptyQueueException("queue empty"); // 큐가 비어있음
+		TreeNode5 x = que[front++];
 		num--;
 
 		return x;
 	}
 
 //--- 큐에서 데이터를 피크(프런트 데이터를 들여다봄) ---//
-	public TreeNode peek() throws EmptyQueueException {
+	public TreeNode5 peek() throws EmptyQueueException {
 		if (num <= 0)
-			throw new EmptyQueueException(); // 큐가 비어있음
+			throw new EmptyQueueException("queue empty"); // 큐가 비어있음
 		return que[front];
 	}
 
@@ -183,7 +185,7 @@ public ObjectQueue(int maxlen) {
 	}
 
 //--- 큐에서 x를 검색하여 인덱스(찾지 못하면 –1)를 반환 ---//
-	public int indexOf(TreeNode x) {
+	public int indexOf(TreeNode5 x) {
 		for (int i = 0; i < num; i++) {
 			int idx = (i + front) % capacity;
 			if (que[idx].equals(x)) // 검색 성공
@@ -223,15 +225,15 @@ public ObjectQueue(int maxlen) {
 		}
 	}
 }
-class Tree {
-	TreeNode root;
+class Tree5 {
+	TreeNode5 root;
 
-	Tree() {
-		root = null;
+	Tree5() {
+		root = null; // 노드를 가리키는 참조변수일뿐 노드가 아니다 root는!
 	}
 
-	TreeNode inorderSucc(TreeNode current) {
-		TreeNode temp = current.RightChild;
+	TreeNode5 inorderSucc(TreeNode5 current) {
+		TreeNode5 temp = current.RightChild;
 		if (current.RightChild != null)
 			while (temp.LeftChild != null)
 				temp = temp.LeftChild;
@@ -239,7 +241,7 @@ class Tree {
 		return temp;
 	}
 
-	boolean isLeafNode(TreeNode current) {
+	boolean isLeafNode(TreeNode5 current) {
 		if (current.LeftChild == null && current.RightChild == null)
 			return true;
 		else
@@ -258,7 +260,7 @@ class Tree {
 		postorder(root);
 	}
 
-	void inorder(TreeNode CurrentNode) {
+	void inorder(TreeNode5 CurrentNode) {
 		if (CurrentNode != null) {
 			inorder(CurrentNode.LeftChild);
 			System.out.print(" " + CurrentNode.data);
@@ -266,7 +268,7 @@ class Tree {
 		}
 	}
 
-	void preorder(TreeNode CurrentNode) {
+	void preorder(TreeNode5 CurrentNode) {
 		if (CurrentNode != null) {
 			System.out.print(CurrentNode.data + " ");
 			preorder(CurrentNode.LeftChild);
@@ -274,7 +276,7 @@ class Tree {
 		}
 	}
 
-	void postorder(TreeNode CurrentNode) {
+	void postorder(TreeNode5 CurrentNode) {
 		if (CurrentNode != null) {
 			postorder(CurrentNode.LeftChild);
 			postorder(CurrentNode.RightChild);
@@ -282,36 +284,62 @@ class Tree {
 		}
 	}
 
-	void NonrecInorder()//void Tree::inorder(TreeNode *CurrentNode)와 비교
+	void NonrecInorder()//void Tree5::inorder(TreeNode5 *CurrentNode)와 비교
+	//stack을 사용한 inorder 출력
 	{
-		ObjectStack s = new ObjectStack(20);
-		TreeNode CurrentNode = root;
-
+		ObjectStack5 s = new ObjectStack5(20);
+		TreeNode5 CurrentNode = root;
+		while (true) {
+			while (CurrentNode != null) {
+				s.push(CurrentNode);
+				CurrentNode = CurrentNode.LeftChild;
+			}
+			if (!s.isEmpty()) {
+				try {
+					CurrentNode = s.pop();
+				} catch (Chap9_Tree.ObjectStack5.EmptyGenericStackException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println(" " + CurrentNode.data);
+				CurrentNode = CurrentNode.RightChild;
+			}
+			else break;  
 		}
 	}
-	void levelOrder() 
+	void levelOrder() //level 별로 출력한다. level이 증가하면 다음줄에 출력한다 
+	//난이도: 최상급 구현 
 	{
-		ObjectQueue q = new ObjectQueue(20);
-		TreeNode CurrentNode = root;
-
+		ObjectQueue5 q = new ObjectQueue5(20);
+		Queue<Integer> que = new LinkedList<>();
+		int oldLevel = 0,  newLevel=0;
+		que.add(oldLevel+1);
+		TreeNode5 CurrentNode = root;
+		newLevel = que.remove();
+		
 	}
 
-	boolean insert(int x) {// binary search tree를 만드는 입력 => A + B * C을 tree로 만드는 방법: 입력 해결하는 알고리즘 작성 방법을
-							// 설계하여 구현
-		TreeNode p = root;
-		TreeNode q = null;
-
+	boolean insert(int x) {// binary search tree를 만드는 입력 : left subtree < 노드 x < right subtree
+		//inorder traversal시에 정렬된 결과가 나와야 한다
+		TreeNode5 p = root;
+		TreeNode5 q = null;
+		
+		return true;
 	}
 
-	boolean delete(int num) {//난이도 최상급 
-		TreeNode p = root, q = null, parent = null;
+	boolean delete(int num) {//binary search tree에서 임의 값을 갖는 노드를 찾아 삭제한다.
+		//삭제 대상이 leaf node인 경우, non-leaf node로 구분하여 구현한다 
+		TreeNode5 p = root, q = null, parent = null;
 		int branchMode = 0; // 1은 left, 2는 right
-
+		if (root == null)
+			return false;
+		
+		return false;
 
 	}
 
-	boolean search(int num) {
-		TreeNode p = root;
+	boolean search(int num) {//num 값을 binary search tree에서 검색
+		TreeNode5 p = root;
 
 	}
 }
@@ -357,9 +385,9 @@ public class 정수이진트리 {
 	public static void main(String[] args) {
 		Random rand = new Random();
 		Scanner stdIn = new Scanner(System.in);
-		Tree t = new Tree();
+		Tree5 t = new Tree5();
 		Menu menu; // 메뉴
-		int count = 6;
+		int count = 20;
 		int num;
 		boolean result;
 		do {
@@ -367,8 +395,10 @@ public class 정수이진트리 {
 			case Add: // 
 				int[] input = new int[count];
 				for (int ix = 0; ix < count; ix++) {
-					input[ix] = rand.nextInt(20);
+					input[ix] = rand.nextInt(50);
 				}
+				for (int n: input)
+					System.out.print(n + " ");
 				for (int i = 0; i < count; i++) {
 					if (!t.insert(input[i]))
 						System.out.println("Insert Duplicated data");
@@ -401,7 +431,7 @@ public class 정수이진트리 {
 				System.out.println();
 				//t.NonrecInorder();
 				break;
-			case LevelorderPrint: // 전체 노드를 키값의 오름차순으로 표시
+			case LevelorderPrint: // 
 				t.levelOrder();
 				System.out.println();
 				//t.NonrecInorder();
