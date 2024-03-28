@@ -41,10 +41,6 @@ class SimpleObject {
 			name = sc.next();
 		}
 	}
-	
-	public boolean equals(SimpleObject p) {
-		return this.no.equals(p.no) && this.name.equals(p.name);
-	}
 
 	// --- 회원번호로 순서를 매기는 comparator ---//
 	public static final Comparator<SimpleObject> NO_ORDER = new NoOrderComparator();

@@ -5,7 +5,6 @@ package Chap8_List;
 import java.util.Comparator;
 import java.util.Scanner;
 
-
 class SimpleObject5 {
 	static final int NO = 1; // 번호를 읽어 들일까요?
 	static final int NAME = 2; // 이름을 읽어 들일까요?
@@ -69,38 +68,103 @@ class LinkedList2 {
 		first = null;
 	}
 
-	public int Delete(SimpleObject5 element, Comparator<SimpleObject5> cc)
+	public boolean Delete(SimpleObject5 element, Comparator<SimpleObject5> cc)
 	//전달된 element를 찾을 때 comparator 객체를 사용한다 
 	{
 		Node2 q, current = first;
 		q = current;
 
-		return -1;// 삭제할 대상이 없다.
+		//구현코드
+		// 나머지 완성하라: 맨앞에 삭제, 중간에 삭제, 맨 뒤에 삭제
+		if(current == null) return false;
+		
+		// 맨 앞에 삭제
+		if(cc.compare(element, current.data) < 0) return false;
+		if(cc.compare(element, current.data) == 0) {
+			current = current.link;
+			return true;
+		}
+		
+		// 중간에 삭제
+		while(current != null) {
+			if(cc.compare(element, current.data) > 0) { 
+				q = current;
+				current = current.link;
+			} else if(cc.compare(element, current.data) == 0) {
+				// insert 해야한다
+				q.link = current.link;
+				return true;
+			}
+		}
+		
+		// 맨 뒤에 삭제
+		if(cc.compare(element, q.data) == 0) {
+			q = null;
+			return true;
+		}
+
+		return false;// 삭제할 대상이 없다.
 	}
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
 		Node2 p = first;
-		SimpleObject5 so;
-
+		//SimpleObject5 so;
+		while(p != null) {
+			System.out.print(p.data + "  ");
+			p = p.link;
+		}
+		System.out.println();
 	}
 	public void Add(SimpleObject5 element, Comparator<SimpleObject5> cc) 
 	//임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
 	{
 		Node2 newNode = new Node2(element);
-		if (first == null) //insert into empty list
-		{
+		
+		if(first == null) {
 			first = newNode;
 			return;
+		}else {
+			
+			// 맨앞에 비교
+			if(cc.compare(element, first.data) < 0) {
+				newNode.link = first;
+				first = newNode;
+				return;
+			}
+			
+			Node2 p = first, q = null;
+			while(p != null) {
+				//if(element > p.data ) { 
+				if(cc.compare(element, p.data) > 0) { 
+					q = p;
+					p = p.link;
+				} else {
+					// insert 해야한다
+					newNode.link = p;
+					q.link = newNode;
+					return;
+				}
+			}
+			
+			// 맨뒤에 비교
+			if(cc.compare(element, q.data) > 0) {
+				q.link = newNode;
+				return;
+			}
 		}
 
 	}
 	public boolean Search(SimpleObject5 element, Comparator<SimpleObject5> cc) { 
 		// 전체 리스트를 올림차순 순서대로 출력한다.
-		Node2 q, current = first;
-		q = current;
+		Node2 ptr = first;
+		while(ptr != null) {
+			System.out.println("check: " + ptr.data);
+			if(cc.compare(element, ptr.data) == 0) return true;
+			ptr = ptr.link;
+		}
 
 		return false;
 	}
-	void Merge(LinkedList1 b) {
+	void Merge(LinkedList2 b) {
 		/*
 		 * 연결리스트 a,b에 대하여 a = a + b
 		 * merge하는 알고리즘 구현으로 in-place 방식으로 합병/이것은 새로운 노드를 만들지 않고 합병하는 알고리즘 구현
@@ -109,7 +173,7 @@ class LinkedList2 {
 		 */
 	}
 }
-public class 실습9_2객체연결리스트 {
+public class 실습9_2객체연결리스트_test {
 
 	enum Menu {
 		Add( "삽입"), Delete( "삭제"), Show( "인쇄"), Search( "검색"), Merge("합병"), Exit( "종료");
@@ -166,7 +230,7 @@ public class 실습9_2객체연결리스트 {
 			case Delete :                         
 				data = new SimpleObject5();
 				data.scanData("삭제", SimpleObject5.NO);
-				int num = l.Delete(data, SimpleObject5.NO_ORDER);//회원번호 조건 비교하여 삭제 
+				boolean num = l.Delete(data, SimpleObject5.NO_ORDER);//회원번호 조건 비교하여 삭제 
 				System.out.println("삭제된 데이터 성공은 " + num);
 				break;
 			case Show :                           
