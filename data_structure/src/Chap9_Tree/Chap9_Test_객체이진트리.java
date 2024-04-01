@@ -367,6 +367,20 @@ class Tree4 {
 		TreeNode4 p = root;
 		TreeNode4 q = null;
 
+		while(p != null) {
+			q = p;
+			if(c.compare(obj, p.data) == 0) return false;
+			if(c.compare(obj, p.data) < 0) p = p.LeftChild;
+			else p = p.RightChild;
+		}
+		p = new TreeNode4();
+		p.LeftChild = p.RightChild = null;
+		p.data = obj;
+		if(root == null) root = p;
+		else if(c.compare(obj, q.data) < 0) q.LeftChild = p;
+		else q.RightChild = p;
+		
+		return true;
 	}
 
 	public boolean delete(SimpleObject4 obj, Comparator<? super SimpleObject4> c) {
@@ -381,12 +395,27 @@ class Tree4 {
 		//주어진 객체 obj를 갖는 노드를 찾는 문제
 		TreeNode4 p = root;
 
+		while(true) {
+			if(p == null) return false;
+			if(c.compare(p.data, obj) == 0) return true;
+			else if(c.compare(obj, p.data) < 0) p = p.LeftChild;
+			else p = p.RightChild;
+		}
 	}
 	void levelOrder() 
 	//root 부터 level별로 출력 : root는 level 1, level 2는 다음줄에 => 같은 level이면 같은 줄에 출력하게 한다 
 	{
 		ObjectQueue4 q = new ObjectQueue4(20);
 		TreeNode4 CurrentNode = root;
+		
+		while(CurrentNode != null) {
+			System.out.print(CurrentNode.data + "  ");
+			if(CurrentNode.LeftChild != null)
+				q.enque(CurrentNode.LeftChild);
+			if(CurrentNode.RightChild != null)
+				q.enque(CurrentNode.RightChild);
+			CurrentNode = q.deque();
+		}
 
 	}
 	void NonrecInorder()//void Tree::inorder(TreeNode4 *CurrentNode)와 비교
@@ -414,7 +443,7 @@ class Tree4 {
 	}
 }
 
-public class 객체이진트리 {
+public class Chap9_Test_객체이진트리 {
 	enum Menu {
 		Add("삽입"), Delete("삭제"), Search("검색"), InorderPrint("정렬출력"), 
 		LevelorderPrint("레벨별출력"), StackInorderPrint("스택정렬출력"), 

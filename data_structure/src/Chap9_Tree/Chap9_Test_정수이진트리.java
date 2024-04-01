@@ -142,15 +142,15 @@ class ObjectQueue5 {
 	}
 
 //--- 생성자(constructor) ---//
-public ObjectQueue5(int maxlen) {
-   num = front = rear = 0;
-   capacity = maxlen;
-   try {
-	   que = new TreeNode5[maxlen];
-   } catch (OutOfMemoryError e) {        // 생성할 수 없음
-       capacity = 0;
-   }
-}
+	public ObjectQueue5(int maxlen) {
+	   num = front = rear = 0;
+	   capacity = maxlen;
+	   try {
+		   que = new TreeNode5[maxlen];
+	   } catch (OutOfMemoryError e) {        // 생성할 수 없음
+	       capacity = 0;
+	   }
+	}
 
 //--- 큐에 데이터를 인큐 ---//
 	public int enque(TreeNode5 x) throws OverflowQueueException {
@@ -310,12 +310,25 @@ class Tree5 {
 	void levelOrder() //level 별로 출력한다. level이 증가하면 다음줄에 출력한다 
 	//난이도: 최상급 구현 
 	{
+		/*
 		ObjectQueue5 q = new ObjectQueue5(20);
 		Queue<Integer> que = new LinkedList<>();
 		int oldLevel = 0,  newLevel=0;
 		que.add(oldLevel+1);
 		TreeNode5 CurrentNode = root;
 		newLevel = que.remove();
+		*/
+		
+		ObjectQueue5 q = new ObjectQueue5(20);
+		TreeNode5 CurrentNode = root;
+		while(CurrentNode != null) {
+			System.out.print(CurrentNode.data + "  ");
+			if(CurrentNode.LeftChild != null)
+				q.enque(CurrentNode.LeftChild);
+			if(CurrentNode.RightChild != null)
+				q.enque(CurrentNode.RightChild);
+			CurrentNode = q.deque();
+		}
 		
 	}
 
@@ -323,6 +336,19 @@ class Tree5 {
 		//inorder traversal시에 정렬된 결과가 나와야 한다
 		TreeNode5 p = root;
 		TreeNode5 q = null;
+		
+		while(p != null) {
+			q = p;
+			if(x == p.data) return false;
+			if(x < p.data) p = p.LeftChild;
+			else p = p.RightChild;
+		}
+		p = new TreeNode5();
+		p.LeftChild = p.RightChild = null;
+		p.data = x;
+		if(root == null) root = p;
+		else if(x < q.data) q.LeftChild = p;
+		else q.RightChild = p;
 		
 		return true;
 	}
@@ -335,16 +361,27 @@ class Tree5 {
 			return false;
 		
 		return false;
+		
+		// 1. isLeaf
+		// 2. isChildOne
+		// 3. child가 2개일때: inorderSucc: isLeaf, isChildOne
 
 	}
 
 	boolean search(int num) {//num 값을 binary search tree에서 검색
 		TreeNode5 p = root;
+		
+		while(true) {
+			if(p == null) return false;
+			if(p.data == num) return true;
+			else if(num < p.data) p = p.LeftChild;
+			else p = p.RightChild;
+		}
 
 	}
 }
 
-public class 정수이진트리 {
+public class Chap9_Test_정수이진트리 {
 	enum Menu {
 		Add("삽입"), Delete("삭제"), Search("검색"), InorderPrint("정렬출력"), 
 		LevelorderPrint("레벨별출력"), StackInorderPrint("스택정렬출력"), 
