@@ -107,7 +107,6 @@ class DoubledLinkedList2 {
 	public boolean search(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
 		Node4 ptr = first.rlink; // 현재 스캔 중인 노드
 		while(ptr != null) {
-			System.out.println("check: " + ptr.data);
 			if(c.compare(obj, ptr.data) == 0) return true;
 			ptr = ptr.rlink;
 		}

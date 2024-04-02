@@ -324,6 +324,17 @@ class Tree4 {
 		else
 			return false;
 	}
+	
+	boolean isChildOne(TreeNode4 current) {
+		if(isLeafNode(current)) 
+			return false;
+		else if (current.LeftChild == null && current.RightChild != null)
+			return true;
+		else if (current.LeftChild != null && current.RightChild == null)
+			return true;
+		else
+			return false;
+	}
 
 	void inorder() {
 		inorder(root);
@@ -386,8 +397,71 @@ class Tree4 {
 	public boolean delete(SimpleObject4 obj, Comparator<? super SimpleObject4> c) {
 		//주어진 객체 obj를 포함한 노드를 찾아 삭제하는 알고리즘
 		//난이도: 최상급 중에서 최상급
-		TreeNode4 p = root, q = null;
+		//TreeNode4 p = root, q = null;
 
+		// 정수 이진 트리 풀고 나서 작업할 것!
+		TreeNode4 p = root, q = null, parent = null;
+		int branchMode = 0;
+		
+		while(true) {
+			if(p == null) return false;
+			if(c.compare(p.data, obj) == 0) {
+				if(isLeafNode(p)) {
+					if(branchMode == 1) {
+						// left
+						parent.LeftChild = null;
+						return true;
+					}else if(branchMode == 2) {
+						// right
+						parent.RightChild = null;
+						return true;
+					}
+				}else if(isChildOne(p)) {
+					
+					// 로직 체크 필요
+					
+					if(p.LeftChild != null) {
+						if(branchMode == 1) {
+							//left
+							parent.LeftChild = p.LeftChild;
+						}else if(branchMode == 2) {
+							//right
+							parent.RightChild = p.LeftChild;
+						}
+						return true;
+					}
+					if(p.RightChild != null) {
+						if(branchMode == 1) {
+							//left
+							parent.LeftChild = p.RightChild;
+						}else if(branchMode == 2) {
+							//right
+							parent.RightChild = p.RightChild;
+						}
+						return true;
+					}
+				}else {
+					// 자식노드가 두개 있는 경우
+					// child가 2개일때: inorderSucc: isLeaf, isChildOne
+					TreeNode4 succ = inorderSucc(p);
+					
+					delete(succ.data, c);
+					
+					p.data = succ.data;
+					return true;
+				} 
+			}
+			else if(c.compare(obj, p.data) < 0) {
+				parent = p;
+				p = p.LeftChild;
+				branchMode = 1;
+			}
+			else {
+				parent = p;
+				p = p.RightChild;
+				branchMode = 2;
+			}
+		}
 
 	}
 

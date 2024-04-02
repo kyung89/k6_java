@@ -115,7 +115,7 @@ class OpenHash2 {
 	//--- 해시 테이블을 덤프(dump) ---//
 	public void dump() {
 	    for(int i = 0; i < size; i++) {
-	    	System.out.printf("%02d", i);
+	    	System.out.printf("%02d ", i);
 	    	switch(table[i].stat) {
 	    	case OCCUPIED:
 	    		System.out.printf("%s \n", table[i].getValue());
@@ -185,6 +185,7 @@ public static void main(String[] args) {
 					input[ix] = (int) (d * 20);
 					System.out.print(" " + input[ix]);
 				}
+				System.out.println();
 				for (int i = 0; i < count; i++) {
 					int k = hash.add(input[i]);
 				      switch (k) {

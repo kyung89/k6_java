@@ -247,6 +247,17 @@ class Tree5 {
 		else
 			return false;
 	}
+	
+	boolean isChildOne(TreeNode5 current) {
+		if(isLeafNode(current)) 
+			return false;
+		else if (current.LeftChild == null && current.RightChild != null)
+			return true;
+		else if (current.LeftChild != null && current.RightChild == null)
+			return true;
+		else
+			return false;
+	}
 
 	void inorder() {
 		inorder(root);
@@ -319,6 +330,7 @@ class Tree5 {
 		newLevel = que.remove();
 		*/
 		
+		/*
 		ObjectQueue5 q = new ObjectQueue5(20);
 		TreeNode5 CurrentNode = root;
 		while(CurrentNode != null) {
@@ -329,6 +341,16 @@ class Tree5 {
 				q.enque(CurrentNode.RightChild);
 			CurrentNode = q.deque();
 		}
+		*/
+		
+		// 다시 구현해야함!
+		
+		ObjectQueue5 q = new ObjectQueue5(20);
+		Queue<Integer> que = new LinkedList<>();
+		int oldLevel = 0,  newLevel=0;
+		que.add(oldLevel+1);
+		TreeNode5 CurrentNode = root;
+		newLevel = que.remove();
 		
 	}
 
@@ -355,16 +377,79 @@ class Tree5 {
 
 	boolean delete(int num) {//binary search tree에서 임의 값을 갖는 노드를 찾아 삭제한다.
 		//삭제 대상이 leaf node인 경우, non-leaf node로 구분하여 구현한다 
-		TreeNode5 p = root, q = null, parent = null;
-		int branchMode = 0; // 1은 left, 2는 right
-		if (root == null)
-			return false;
+		//TreeNode5 p = root, q = null, parent = null;
+		//int branchMode = 0; // 1은 left, 2는 right
+		//if (root == null)
+		//	return false;
 		
-		return false;
+		//return false;
 		
 		// 1. isLeaf
 		// 2. isChildOne
 		// 3. child가 2개일때: inorderSucc: isLeaf, isChildOne
+
+		TreeNode5 p = root, q = null, parent = null;
+		int branchMode = 0;
+		
+		while(true) {
+			if(p == null) return false;
+			if(p.data == num) {
+				if(isLeafNode(p)) {
+					if(branchMode == 1) {
+						// left
+						parent.LeftChild = null;
+						return true;
+					}else if(branchMode == 2) {
+						// right
+						parent.RightChild = null;
+						return true;
+					}
+				}else if(isChildOne(p)) {
+					
+					// 로직 체크 필요
+					
+					if(p.LeftChild != null) {
+						if(branchMode == 1) {
+							//left
+							parent.LeftChild = p.LeftChild;
+						}else if(branchMode == 2) {
+							//right
+							parent.RightChild = p.LeftChild;
+						}
+						return true;
+					}
+					if(p.RightChild != null) {
+						if(branchMode == 1) {
+							//left
+							parent.LeftChild = p.RightChild;
+						}else if(branchMode == 2) {
+							//right
+							parent.RightChild = p.RightChild;
+						}
+						return true;
+					}
+				}else {
+					// 자식노드가 두개 있는 경우
+					// child가 2개일때: inorderSucc: isLeaf, isChildOne
+					TreeNode5 succ = inorderSucc(p);
+					
+					delete(succ.data);
+					
+					p.data = succ.data;
+					return true;
+				} 
+			}
+			else if(num < p.data) {
+				parent = p;
+				p = p.LeftChild;
+				branchMode = 1;
+			}
+			else {
+				parent = p;
+				p = p.RightChild;
+				branchMode = 2;
+			}
+		}
 
 	}
 

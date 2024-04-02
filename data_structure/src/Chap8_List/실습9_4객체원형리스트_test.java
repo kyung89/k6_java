@@ -29,6 +29,11 @@ class SimpleObject3 {
 		this.no = null;
 		this.name = null;
 	}
+	
+	boolean isNull() {
+		return this.no == null && this.name == null;
+	}
+	
 	// --- 데이터를 읽어 들임 ---//
 	void scanData(String guide, int sw) {
 		Scanner sc = new Scanner(System.in);
@@ -110,7 +115,8 @@ class CircularList {
 		}
 		
 		// 중간에 삭제
-		while(current != null) {
+		//while(current != null && !current.link.data.isNull()) {
+		while(!current.link.data.isNull()) {
 			if(cc.compare(element, current.data) > 0) { 
 				q = current;
 				current = current.link;
@@ -125,11 +131,11 @@ class CircularList {
 		// 맨 뒤에 삭제
 		if(cc.compare(element, q.data) == 0) {
 			q = null;
-			Node3 p = current;
+			Node3 p = first.link;
 			while(p.link != null) {
 				p = p.link;
 			}
-			p.link = current;
+			p.link = first;
 			size--;
 			return true;
 		}
@@ -162,17 +168,16 @@ class CircularList {
 		}else {
 			
 			// 맨앞에 비교
-			if(cc.compare(element, first.data) <= 0) {
-				newNode.link = first;
-				first = newNode;
+			if(cc.compare(element, first.link.data) <= 0) {
+				newNode.link = first.link;
 				first.link = newNode;
 				size++;
 				return;
 			}
-			System.out.println("check1");
 			Node3 p = first, q = null;
 			int cnt = 0;
-			while(p != null && cnt < size) {
+			//while(p != null && cnt < size) {
+			while(!p.link.data.isNull()) {
 				//if(element > p.data ) { 
 				if(cc.compare(element, p.data) > 0) { 
 					q = p;
@@ -187,7 +192,6 @@ class CircularList {
 				}
 			}
 			
-			System.out.println("check2");
 			// 맨뒤에 비교
 			if(cc.compare(element, q.data) >= 0) {
 				q.link = newNode;
@@ -209,13 +213,50 @@ class CircularList {
 		}
 		return false;
 	}
-	void Merge(CircularList b) {
+	void Merge(CircularList b, Comparator<SimpleObject3> cc) {
 		/*
 		 * 연결리스트 a,b에 대하여 a = a + b
 		 * merge하는 알고리즘 구현으로 in-place 방식으로 합병/이것은 새로운 노드를 만들지 않고 합병하는 알고리즘 구현
 		 * 난이도 등급: 최상급
 		 * 회원번호에 대하여 a = (3, 5, 7), b = (2,4,8,9)이면 a = (2,3,4,5,8,9)가 되도록 구현하는 코드
 		 */
+		
+		if (b == null || b.first == null) {
+            return;
+        }
+        
+		Node3 a = this.first;
+		Node3 aPrev = null;
+
+		Node3 bCurrent = b.first;
+
+        //while (a != null && bCurrent != null) {
+        while (!a.link.data.isNull() && !bCurrent.link.data.isNull()) {
+            if (cc.compare(a.data, bCurrent.data) > 0) {
+            	Node3 temp = bCurrent.link;
+
+                if (aPrev == null) {
+                    b.first = bCurrent;
+                } else {
+                    aPrev.link = bCurrent;
+                }
+
+                bCurrent.link = a;
+                aPrev = bCurrent;
+                bCurrent = temp;
+            } else {
+                aPrev = a;
+                a = a.link;
+            }
+        }
+
+        if (!bCurrent.link.data.isNull()) {
+            if (!aPrev.link.data.isNull()) {
+                aPrev.link = bCurrent;
+            } else {
+                this.first = bCurrent;
+            }
+        }
 	}
 }
 
@@ -296,7 +337,7 @@ public class 실습9_4객체원형리스트_test {
 					data.scanData("병합", 3);
 					l2.Add(data, SimpleObject3.NO_ORDER );				
 				}
-				l.Merge(l2);
+				l.Merge(l2, SimpleObject3.NO_ORDER);
 			case Exit: // 꼬리 노드 삭제
 				break;
 			}

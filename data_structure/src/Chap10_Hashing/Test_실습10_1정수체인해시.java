@@ -39,7 +39,7 @@ class SimpleChainHash {
 		 
 		 while(p != null) {
 			 if(p.key == key)
-				 return p.key;
+				 return 1;
 			 p = p.next;
 		 }
 		 return -1;
@@ -57,7 +57,7 @@ class SimpleChainHash {
 		 }
 		 
 		 Node temp = new Node(key);
-		 p.next = temp;
+		 table[hash] = temp;
 		 return 0; //노드를 삽입
 	 }
 	
@@ -73,12 +73,12 @@ class SimpleChainHash {
 					 table[hash]=  p.next;
 				 else
 					 pp.next = p.next;
-				 return 0;
+				 return 1;
 			 }
 			 pp = p;
 			 p = p.next;
 		 }
-		 return 1; // 그 키 값은 없음
+		 return 0; // 그 키 값은 없음
 	 }
 	
 	 //--- 해시 테이블을 덤프(dump) ---//
@@ -151,8 +151,9 @@ public class Test_실습10_1정수체인해시 {
 					input[ix] = (int) (d * 20);
 					System.out.print(" " + input[ix]);
 				}
+				System.out.println();
 				for (int i = 0; i < count; i++) {
-					if ((hash.add(input[i])) == 0)
+					if ((hash.add(input[i])) == 1)
 						System.out.println("Insert Duplicated data");
 				}
 				break;

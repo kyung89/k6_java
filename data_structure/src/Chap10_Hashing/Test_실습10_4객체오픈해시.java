@@ -27,7 +27,10 @@ class SimpleObject2 {
 		}
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "SimpleObject2 [sno=" + sno + ", sname=" + sname + "]";
+	}
 	
 	// --- 회원번호로 순서를 매기는 comparator ---//
 	public static final Comparator<SimpleObject2> NO_ORDER = new NoOrderComparator();
@@ -75,6 +78,10 @@ class OpenHash {
 	    
 	    SimpleObject2 getValue() {
 	    	return data;
+	    }
+	    
+	    public String toString() {
+	    	return data.toString();
 	    }
 	}
 
@@ -158,7 +165,7 @@ class OpenHash {
 	// --- 해시 테이블을 덤프(dump) ---//
 	public void dump() {
 		for(int i = 0; i < size; i++) {
-	    	System.out.printf("%02d", i);
+	    	System.out.printf("%02d ", i);
 	    	switch(table[i].stat) {
 	    	case OCCUPIED:
 	    		System.out.printf("%s \n", table[i].getValue());

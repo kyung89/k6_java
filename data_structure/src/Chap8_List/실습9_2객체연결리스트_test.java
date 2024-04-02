@@ -164,13 +164,49 @@ class LinkedList2 {
 
 		return false;
 	}
-	void Merge(LinkedList2 b) {
+	void Merge(LinkedList2 b, Comparator<SimpleObject5> cc) {
 		/*
 		 * 연결리스트 a,b에 대하여 a = a + b
 		 * merge하는 알고리즘 구현으로 in-place 방식으로 합병/이것은 새로운 노드를 만들지 않고 합병하는 알고리즘 구현
 		 * 난이도 등급: 최상급
 		 * 회원번호에 대하여 a = (3, 5, 7), b = (2,4,8,9)이면 a = (2,3,4,5,8,9)가 되도록 구현하는 코드
 		 */
+		
+		if (b == null || b.first == null) {
+            return;
+        }
+        
+		Node2 a = this.first;
+		Node2 aPrev = null;
+
+		Node2 bCurrent = b.first;
+
+        while (a != null && bCurrent != null) {
+            if (cc.compare(a.data, bCurrent.data) > 0) {
+            	Node2 temp = bCurrent.link;
+
+                if (aPrev == null) {
+                    b.first = bCurrent;
+                } else {
+                    aPrev.link = bCurrent;
+                }
+
+                bCurrent.link = a;
+                aPrev = bCurrent;
+                bCurrent = temp;
+            } else {
+                aPrev = a;
+                a = a.link;
+            }
+        }
+
+        if (bCurrent != null) {
+            if (aPrev != null) {
+                aPrev.link = bCurrent;
+            } else {
+                this.first = bCurrent;
+            }
+        }
 	}
 }
 public class 실습9_2객체연결리스트_test {
@@ -251,7 +287,7 @@ public class 실습9_2객체연결리스트_test {
 					data.scanData("병합", 3);
 					l2.Add(data, SimpleObject5.NO_ORDER );				
 				}
-				l.Merge(l2);
+				l.Merge(l2, SimpleObject5.NO_ORDER);
 				break;
 			case Exit :                           // 꼬리 노드 삭제
 				break;

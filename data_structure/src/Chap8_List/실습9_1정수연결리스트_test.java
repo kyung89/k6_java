@@ -125,72 +125,44 @@ class LinkedList1 {
 		// A: LinkedList1 -> this.first -> data, link
 		// B: LinkedList1 b -> first -> data, link
 		
-		Node1 aCurrent = first;
-		Node1 bCurrent = b.first;
-		Node1 aBefore = null;
-	
-		// 맨 앞에서 처리하는 로직
-		if(aCurrent.data < bCurrent.data) {
-			
-			Node1 aNext = aCurrent.link;
-			Node1 bNext = bCurrent.link;
-			
-			aCurrent.link = bCurrent;
-			bCurrent.link = aNext;
-			aCurrent = bCurrent;
-			bCurrent = bNext;
-		}else if(aCurrent.data > bCurrent.data) {
-			
-			Node1 aNext = aCurrent.link;
-			Node1 bNext = bCurrent.link;
-			
-			first = bCurrent;
-			bCurrent.link = aCurrent;
-			bCurrent = bNext;
-		}
-		
-		// 출력해보기
-		System.out.println();
-		Show();
-		System.out.println("aCurrent.data = " + aCurrent.data);
-		System.out.println("bCurrent.data = " + bCurrent.data);
-		System.out.println();
-		
-		while(aCurrent.link != null && bCurrent.link != null) {	
-			
-			
-			if(aCurrent.data <= bCurrent.data && aCurrent.link.data >= bCurrent.data) {
-				Node1 bNext = bCurrent.link;
-				bCurrent.link = aCurrent.link;
-				aCurrent.link = bCurrent;
-				
-				aCurrent = aCurrent.link;
-				bCurrent=  bNext;
-				
-				if(bCurrent == null || aCurrent == null) break;
-				
-				System.out.println();
-				Show();
-				System.out.println("aCurrent.data = " + aCurrent.data); 
-				System.out.println("bCurrent.data = " + bCurrent.data); 
-				System.out.println();
-				
-				continue;
-				
-			}else {
-				aCurrent = aCurrent.link;
-			}
-			
-			
-			if(aCurrent.link.data < bCurrent.data ) {
-				aCurrent = aCurrent.link;
-				continue;
-			}
-		}
 
-		if(aCurrent.link == null && bCurrent != null) {
-			aCurrent.link = bCurrent;
-		}
+		if (b == null || b.first == null) {
+            return;
+        }
+        
+		Node1 a = this.first;
+		Node1 aPrev = null;
+
+		Node1 bCurrent = b.first;
+
+        while (a != null && bCurrent != null) {
+            if (a.data > bCurrent.data) {
+            	Node1 temp = bCurrent.link;
+
+                if (aPrev == null) {
+                    b.first = bCurrent;
+                } else {
+                    aPrev.link = bCurrent;
+                }
+
+                bCurrent.link = a;
+                aPrev = bCurrent;
+                bCurrent = temp;
+            } else {
+                aPrev = a;
+                a = a.link;
+            }
+        }
+
+        if (bCurrent != null) {
+            if (aPrev != null) {
+                aPrev.link = bCurrent;
+            } else {
+                this.first = bCurrent;
+            }
+        }
+        
+        //챗GPT 도움 받음. 코드 로직 점검
 	}
 }
 

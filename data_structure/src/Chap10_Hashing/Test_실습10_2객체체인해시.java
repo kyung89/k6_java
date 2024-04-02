@@ -96,7 +96,7 @@ class ChainHash5 {
 		 
 		 while(p != null) {
 			 if(c.compare(p.data, st) == 0)
-				 return Integer.parseInt(st.no);
+				 return 1;
 			 p = p.next;
 		 }
 		 return -1;
@@ -115,7 +115,7 @@ class ChainHash5 {
 		 }
 		 
 		 Node2 temp = new Node2(st);
-		 p.next = temp;
+		 table[hash] = temp;
 		 return 0; // 노드 삽입
 	}
 
@@ -132,12 +132,12 @@ class ChainHash5 {
 					 table[hash]=  p.next;
 				 else
 					 pp.next = p.next;
-				 return 0;
+				 return 1;
 			 }
 			 pp = p;
 			 p = p.next;
 		 }
-		 return 1;
+		 return 0;
 	}
 
 //--- 해시 테이블을 덤프(dump) ---//
