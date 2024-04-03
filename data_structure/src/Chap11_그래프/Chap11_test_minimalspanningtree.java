@@ -1,5 +1,5 @@
 package Chap11_그래프;
-/*
+
 import java.util.Scanner;
 
 //minimal spanning tree:: Kruskal’s source code
@@ -12,6 +12,12 @@ class Edge implements Comparable<Edge>{
 	int src;
 	int dest;
 	int weight;
+	
+	@Override
+	public int compareTo(Edge o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }
 class Heap implements MaxHeap {
@@ -107,7 +113,7 @@ public static void main(String[] args) {
 	n = sc.nextInt();
 
 	/* Let us create following weighted graph */
-/*
+
 	Graph graph = new Graph(n);
 	while (select != '0')
 	{
@@ -154,4 +160,3 @@ public static void main(String[] args) {
 	return;
 }
 }
-*/

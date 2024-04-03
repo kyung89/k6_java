@@ -3,9 +3,9 @@ package Chap11_그래프;
 
 /* sets - graph의 최단경로에서 사용
 */
-/*
+
 class Sets {
-	int[] parent;
+	int[] parent; // int* parent
 	int n;
     public Sets(int sz)
     {
@@ -93,4 +93,3 @@ public class Chap11_test_그래프세트구현 {
 	return;
 }
 }
-*/
