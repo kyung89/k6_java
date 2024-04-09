@@ -1,4 +1,4 @@
-package edu.pnu;
+package lec_20240328;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
